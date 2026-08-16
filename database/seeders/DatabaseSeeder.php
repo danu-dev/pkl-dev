@@ -17,12 +17,15 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        $adminPassword = env('ADMIN_DEFAULT_PASSWORD', 'AdminPkl#Dev2026');
+        $studentPassword = env('STUDENT_DEFAULT_PASSWORD', 'AfdanuPkl#Dev2026');
+
         // 1. Admin User
         User::create([
             'name' => 'Administrator PKL',
             'username' => 'admin',
             'email' => 'admin@pkl.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make($adminPassword),
             'role' => 'admin',
             'status' => 'approved',
             'is_approved' => true,
@@ -60,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'MOHAMMAD AFDANU APRILIAN SAPUTRA',
             'username' => 'afdanu',
             'email' => 'afdanu@gmail.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make($studentPassword),
             'role' => 'siswa_pkl',
             'status' => 'approved',
             'is_approved' => true,

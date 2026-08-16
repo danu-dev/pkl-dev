@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingPageController::class)->name('home');
 
-// Guest Auth Routes
+// Guest Auth Routes with brute-force rate limiting (5 attempts/min on login, 10 on register)
 Route::middleware('guest')->group(function () {
     Route::get('/login', fn () => Inertia\Inertia::render('auth/Login'))->name('login');
-    Route::post('/login', [PklLoginController::class, 'store']);
+    Route::post('/login', [PklLoginController::class, 'store'])->middleware('throttle:5,1');
 
     Route::get('/register', [PklRegisterController::class, 'create'])->name('register');
-    Route::post('/register', [PklRegisterController::class, 'store']);
+    Route::post('/register', [PklRegisterController::class, 'store'])->middleware('throttle:10,1');
 });
 
 Route::post('/logout', [PklLoginController::class, 'destroy'])->middleware('auth')->name('logout');
