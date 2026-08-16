@@ -5,12 +5,25 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
-// Setup dynamic SQLite database in /tmp for serverless environments (Vercel)
-if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL'])) {
+// Setup temporary directories & storage in /tmp for Vercel read-only filesystem
+if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
+    $dirs = [
+        '/tmp/storage/framework/views',
+        '/tmp/storage/framework/sessions',
+        '/tmp/storage/framework/cache',
+        '/tmp/storage/logs',
+        '/tmp/bootstrap/cache',
+    ];
+
+    foreach ($dirs as $dir) {
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+    }
+
     $dbPath = '/tmp/database.sqlite';
     if (!file_exists($dbPath)) {
         touch($dbPath);
-        // Copy pre-seeded database if exists or trigger migration
         if (file_exists(__DIR__.'/../database/database.sqlite')) {
             copy(__DIR__.'/../database/database.sqlite', $dbPath);
         }
@@ -28,5 +41,10 @@ require __DIR__.'/../vendor/autoload.php';
 // Bootstrap Laravel and handle the request...
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
+
+// Dynamically set write paths to /tmp in Vercel
+if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
+    $app->useStoragePath('/tmp/storage');
+}
 
 $app->handleRequest(Request::capture());
