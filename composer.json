@@ -16,6 +16,13 @@
         "laravel/wayfinder": "^0.1.14",
         "laravel/workos": "^0.6.0"
     },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "laravel/boost"
+            ]
+        }
+    },
     "require-dev": {
         "fakerphp/faker": "^1.24",
         "larastan/larastan": "^3.9",
