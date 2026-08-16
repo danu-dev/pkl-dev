@@ -42,9 +42,14 @@ require __DIR__.'/../vendor/autoload.php';
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-// Dynamically set write paths to /tmp in Vercel
 if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     $app->useStoragePath('/tmp/storage');
+    // Ensure all foundational providers are explicitly registered in serverless
+    $app->register(\Illuminate\View\ViewServiceProvider::class);
+    $app->register(\Illuminate\Database\DatabaseServiceProvider::class);
+    $app->register(\Illuminate\Session\SessionServiceProvider::class);
+    $app->register(\Illuminate\Filesystem\FilesystemServiceProvider::class);
+    $app->register(\Illuminate\Validation\ValidationServiceProvider::class);
 }
 
 try {
