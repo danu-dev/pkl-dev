@@ -5,7 +5,7 @@
   "outputDirectory": "public",
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.7.4"
+      "runtime": "vercel-php@0.7.3"
     }
   },
   "routes": [
@@ -29,23 +29,5 @@
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
-  ],
-  "env": {
-    "APP_NAME": "SIPKL",
-    "APP_ENV": "production",
-    "APP_DEBUG": "false",
-    "APP_KEY": "base64:sPQJCXN07fK5LeiM7X7oRbA3G8F7jo+3l5aNqV9maeQ=",
-    "APP_CONFIG_CACHE": "/tmp/config.php",
-    "APP_EVENTS_CACHE": "/tmp/events.php",
-    "APP_PACKAGES_CACHE": "/tmp/packages.php",
-    "APP_ROUTES_CACHE": "/tmp/routes.php",
-    "APP_SERVICES_CACHE": "/tmp/services.php",
-    "VIEW_COMPILED_PATH": "/tmp",
-    "SESSION_DRIVER": "cookie",
-    "LOG_CHANNEL": "stderr",
-    "CACHE_STORE": "array",
-    "DB_CONNECTION": "sqlite",
-    "DB_DATABASE": "/tmp/database.sqlite",
-    "VERCEL_PHP_VERSION": "8.4.x"
-  }
+  ]
 }
