@@ -47,4 +47,9 @@ if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     $app->useStoragePath('/tmp/storage');
 }
 
-$app->handleRequest(Request::capture());
+try {
+    $app->handleRequest(Request::capture());
+} catch (\Throwable $e) {
+    http_response_code(500);
+    echo "<h1>Laravel Exception Details:</h1><pre>" . $e->getMessage() . "\n\n" . $e->getTraceAsString() . "</pre>";
+}
