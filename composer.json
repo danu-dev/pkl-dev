@@ -9,13 +9,10 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
-        "symfony/http-foundation": "^7.2",
-        "symfony/http-kernel": "^7.2",
-        "symfony/routing": "^7.2",
+        "php": "^8.2",
         "inertiajs/inertia-laravel": "^3.0",
-        "laravel/framework": "^13.17",
-        "laravel/tinker": "^3.0",
+        "laravel/framework": "^12.0",
+        "laravel/tinker": "^2.10",
         "laravel/wayfinder": "^0.1.14",
         "laravel/workos": "^0.6.0"
     },
@@ -24,13 +21,12 @@
         "larastan/larastan": "^3.9",
         "laravel/boost": "^2.2",
         "laravel/pail": "^1.2.5",
-        "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.27",
         "laravel/sail": "^1.53",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.9.3",
-        "pestphp/pest": "^5.1",
-        "pestphp/pest-plugin-laravel": "^5.0"
+        "pestphp/pest": "^3.7",
+        "pestphp/pest-plugin-laravel": "^3.1"
     },
     "autoload": {
         "psr-4": {
