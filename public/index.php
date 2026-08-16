@@ -22,11 +22,13 @@ if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     }
 
     $dbPath = '/tmp/database.sqlite';
-    if (!file_exists($dbPath)) {
-        touch($dbPath);
-        if (file_exists(__DIR__.'/../database/database.sqlite')) {
+    if (!file_exists($dbPath) || filesize($dbPath) === 0) {
+        if (file_exists(__DIR__.'/../database/database.sqlite') && filesize(__DIR__.'/../database/database.sqlite') > 0) {
             copy(__DIR__.'/../database/database.sqlite', $dbPath);
+        } else {
+            touch($dbPath);
         }
+        chmod($dbPath, 0777);
     }
 }
 
@@ -45,6 +47,11 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     $app->useStoragePath('/tmp/storage');
     $app->useBootstrapPath('/tmp/bootstrap');
+    // Force SQLite database path and Session driver to cookie in Vercel
+    config([
+        'database.connections.sqlite.database' => '/tmp/database.sqlite',
+        'session.driver' => 'cookie',
+    ]);
 }
 
 $app->handleRequest(Request::capture());
