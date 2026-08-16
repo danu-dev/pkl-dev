@@ -3,14 +3,13 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Auth\PklLoginController;
 use App\Http\Controllers\Auth\PklRegisterController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\Student;
 use App\Http\Middleware\EnsureAccountApproved;
 use App\Http\Middleware\EnsureIsAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+Route::get('/', LandingPageController::class)->name('home');
 
 // Guest Auth Routes
 Route::middleware('guest')->group(function () {
@@ -95,4 +94,16 @@ Route::middleware(['auth', EnsureIsAdmin::class])->prefix('admin')->name('admin.
     // Settings jam operasional
     Route::get('/settings', [Admin\SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [Admin\SettingController::class, 'update'])->name('settings.update');
+
+    // CMS Landing Page Editor
+    Route::get('/landing-cms', [Admin\LandingCmsController::class, 'index'])->name('landing.index');
+    Route::post('/landing-cms/sections', [Admin\LandingCmsController::class, 'updateSections'])->name('landing.sections.update');
+    Route::post('/landing-cms/alumni', [Admin\LandingCmsController::class, 'storeAlumni'])->name('landing.alumni.store');
+    Route::delete('/landing-cms/alumni/{id}', [Admin\LandingCmsController::class, 'destroyAlumni'])->name('landing.alumni.destroy');
+    Route::post('/landing-cms/gallery', [Admin\LandingCmsController::class, 'storeGallery'])->name('landing.gallery.store');
+    Route::delete('/landing-cms/gallery/{id}', [Admin\LandingCmsController::class, 'destroyGallery'])->name('landing.gallery.destroy');
+    Route::post('/landing-cms/procedures', [Admin\LandingCmsController::class, 'storeProcedure'])->name('landing.procedure.store');
+    Route::delete('/landing-cms/procedures/{id}', [Admin\LandingCmsController::class, 'destroyProcedure'])->name('landing.procedure.destroy');
 });
+
+require __DIR__.'/settings.php';

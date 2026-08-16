@@ -2,44 +2,38 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Services\AdminServiceInterface;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ApproveUserRequest;
+use App\Http\Requests\Admin\RejectUserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ApprovalController extends Controller
 {
+    public function __construct(
+        protected AdminServiceInterface $adminService
+    ) {}
+
     public function index(): Response
     {
-        $pendingUsers = User::with(['profile.school', 'profile.major', 'profile.pklBatch'])
-            ->where('role', 'siswa_pkl')
-            ->where('status', 'pending')
-            ->latest()
-            ->paginate(10);
-
         return Inertia::render('Admin/Approval/Index', [
-            'pendingUsers' => $pendingUsers,
+            'pendingUsers' => $this->adminService->getPendingStudents(),
         ]);
     }
 
-    public function approve(User $user): RedirectResponse
+    public function approve(ApproveUserRequest $request, User $user): RedirectResponse
     {
-        $user->update([
-            'status' => 'approved',
-            'is_approved' => true,
-        ]);
+        $this->adminService->approveStudent($user);
 
         return back()->with('success', "Akun siswa {$user->name} berhasil disetujui.");
     }
 
-    public function reject(Request $request, User $user): RedirectResponse
+    public function reject(RejectUserRequest $request, User $user): RedirectResponse
     {
-        $user->update([
-            'status' => 'rejected',
-            'is_approved' => false,
-        ]);
+        $this->adminService->rejectStudent($user);
 
         return back()->with('success', "Pendaftaran siswa {$user->name} ditolak.");
     }

@@ -2,92 +2,59 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Services\AdminServiceInterface;
 use App\Http\Controllers\Controller;
-use App\Models\Division;
-use App\Models\Major;
-use App\Models\PklBatch;
-use App\Models\School;
-use App\Models\Supervisor;
+use App\Http\Requests\Admin\StoreBatchRequest;
+use App\Http\Requests\Admin\StoreDivisionRequest;
+use App\Http\Requests\Admin\StoreMajorRequest;
+use App\Http\Requests\Admin\StoreSchoolRequest;
+use App\Http\Requests\Admin\StoreSupervisorRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class MasterDataController extends Controller
 {
+    public function __construct(
+        protected AdminServiceInterface $adminService
+    ) {}
+
     public function index(): Response
     {
-        return Inertia::render('Admin/MasterData/Index', [
-            'schools' => School::with('majors')->get(),
-            'divisions' => Division::all(),
-            'batches' => PklBatch::all(),
-            'supervisors' => Supervisor::all(),
-        ]);
+        return Inertia::render('Admin/MasterData/Index', $this->adminService->getMasterData());
     }
 
-    public function storeSchool(Request $request): RedirectResponse
+    public function storeSchool(StoreSchoolRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'code' => ['nullable', 'string', 'max:50'],
-            'address' => ['nullable', 'string'],
-        ]);
-
-        School::create($request->only(['name', 'code', 'address']));
+        $this->adminService->storeSchool($request->validated());
 
         return back()->with('success', 'Data Sekolah/Kampus berhasil ditambahkan.');
     }
 
-    public function storeMajor(Request $request): RedirectResponse
+    public function storeMajor(StoreMajorRequest $request): RedirectResponse
     {
-        $request->validate([
-            'school_id' => ['required', 'exists:schools,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'code' => ['nullable', 'string', 'max:50'],
-        ]);
-
-        Major::create($request->only(['school_id', 'name', 'code']));
+        $this->adminService->storeMajor($request->validated());
 
         return back()->with('success', 'Data Jurusan berhasil ditambahkan.');
     }
 
-    public function storeDivision(Request $request): RedirectResponse
+    public function storeDivision(StoreDivisionRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'code' => ['nullable', 'string', 'max:50'],
-        ]);
-
-        Division::create($request->only(['name', 'code']));
+        $this->adminService->storeDivision($request->validated());
 
         return back()->with('success', 'Data Divisi berhasil ditambahkan.');
     }
 
-    public function storeBatch(Request $request): RedirectResponse
+    public function storeBatch(StoreBatchRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
-            'quota' => ['required', 'integer', 'min:1'],
-        ]);
-
-        PklBatch::create($request->only(['name', 'start_date', 'end_date', 'quota']));
+        $this->adminService->storeBatch($request->validated());
 
         return back()->with('success', 'Gelombang PKL berhasil ditambahkan.');
     }
 
-    public function storeSupervisor(Request $request): RedirectResponse
+    public function storeSupervisor(StoreSupervisorRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'nip' => ['nullable', 'string'],
-            'email' => ['nullable', 'email'],
-            'phone_number' => ['nullable', 'string'],
-            'company_agency' => ['nullable', 'string'],
-        ]);
-
-        Supervisor::create($request->only(['name', 'nip', 'email', 'phone_number', 'company_agency']));
+        $this->adminService->storeSupervisor($request->validated());
 
         return back()->with('success', 'Data Pembimbing berhasil ditambahkan.');
     }

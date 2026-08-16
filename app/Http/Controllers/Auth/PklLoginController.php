@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Contracts\Services\AuthServiceInterface;
+use App\DTOs\LoginDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,39 +13,25 @@ use Illuminate\Validation\ValidationException;
 
 class PklLoginController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function __construct(
+        protected AuthServiceInterface $authService
+    ) {}
+
+    public function store(LoginRequest $request): RedirectResponse
     {
-        $request->validate([
-            'login' => ['required', 'string'],
-            'password' => ['required', 'string'],
-        ]);
+        $dto = LoginDTO::fromRequest($request->validated());
 
-        $loginType = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
-        $credentials = [
-            $loginType => $request->input('login'),
-            'password' => $request->input('password'),
-        ];
-
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
-            throw ValidationException::withMessages([
-                'login' => __('auth.failed'),
-            ]);
-        }
+        $this->authService->attemptLogin($dto);
 
         $user = Auth::user();
 
         if ($user->role === 'siswa_pkl' && (! $user->is_approved || $user->status !== 'approved')) {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+            $this->authService->logout();
 
             throw ValidationException::withMessages([
                 'login' => 'Akun Anda belum disetujui oleh Admin. Silakan tunggu konfirmasi verifikasi.',
             ]);
         }
-
-        $request->session()->regenerate();
 
         if ($user->role === 'admin') {
             return redirect()->intended(route('admin.dashboard'));
@@ -53,10 +42,7 @@ class PklLoginController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $this->authService->logout();
 
         return redirect('/');
     }

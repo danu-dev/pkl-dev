@@ -2,41 +2,38 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Services\AdminServiceInterface;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DestroyAnnouncementRequest;
+use App\Http\Requests\Admin\StoreAnnouncementRequest;
 use App\Models\Announcement;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class AnnouncementController extends Controller
 {
+    public function __construct(
+        protected AdminServiceInterface $adminService
+    ) {}
+
     public function index(): Response
     {
-        $announcements = Announcement::latest()->paginate(10);
-
         return Inertia::render('Admin/Announcements/Index', [
-            'announcements' => $announcements,
+            'announcements' => $this->adminService->getAnnouncementsData(),
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreAnnouncementRequest $request): RedirectResponse
     {
-        $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
-            'is_pinned' => ['boolean'],
-            'target_role' => ['required', 'in:all,siswa_pkl'],
-        ]);
-
-        Announcement::create($request->all());
+        $this->adminService->storeAnnouncement($request->validated());
 
         return back()->with('success', 'Pengumuman berhasil dipublikasikan.');
     }
 
-    public function destroy(Announcement $announcement): RedirectResponse
+    public function destroy(DestroyAnnouncementRequest $request, Announcement $announcement): RedirectResponse
     {
-        $announcement->delete();
+        $this->adminService->deleteAnnouncement($announcement->id);
 
         return back()->with('success', 'Pengumuman berhasil dihapus.');
     }

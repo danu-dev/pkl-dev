@@ -17,7 +17,8 @@ import {
     X,
     UserCheck,
     FolderKanban,
-    Calendar
+    Calendar,
+    Globe
 } from '@lucide/vue';
 import { ref } from 'vue';
 
@@ -249,6 +250,15 @@ const toggleSidebar = () => {
                             >
                                 <Clock class="w-4 h-4" />
                                 <span>Jam Operasional</span>
+                            </Link>
+
+                            <Link 
+                                href="/admin/landing-cms" 
+                                class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all"
+                                :class="$page.url.startsWith('/admin/landing-cms') ? 'bg-blue-50 text-[rgb(93,135,255)] font-semibold' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'"
+                            >
+                                <Globe class="w-4 h-4" />
+                                <span>Kelola Landing Page</span>
                             </Link>
                         </div>
                     </template>

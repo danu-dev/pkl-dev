@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Contracts\Services\StudentServiceInterface;
 use App\Http\Controllers\Controller;
-use App\Models\PicketReport;
-use App\Models\PicketSchedule;
+use App\Http\Requests\Student\StorePicketReportRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -12,64 +12,28 @@ use Inertia\Response;
 
 class PicketController extends Controller
 {
-    public function scheduleIndex(Request $request): Response
+    public function __construct(
+        protected StudentServiceInterface $studentService
+    ) {}
+
+    public function scheduleIndex(): Response
     {
-        $days = ['senin', 'selasa', 'rabu', 'kamis', 'jumat'];
-        $schedules = [];
-
-        foreach ($days as $day) {
-            $schedules[$day] = [
-                'pagi' => PicketSchedule::with('user:id,name,username')
-                    ->where('day', $day)
-                    ->where('shift', 'pagi')
-                    ->get()
-                    ->pluck('user.name')
-                    ->toArray(),
-                'sore' => PicketSchedule::with('user:id,name,username')
-                    ->where('day', $day)
-                    ->where('shift', 'sore')
-                    ->get()
-                    ->pluck('user.name')
-                    ->toArray(),
-            ];
-        }
-
         return Inertia::render('Student/Picket/Schedule', [
-            'schedules' => $schedules,
+            'schedules' => $this->studentService->getPicketSchedules(),
             'todayDate' => now()->translatedFormat('l, d F Y'),
         ]);
     }
 
     public function reportIndex(Request $request): Response
     {
-        $user = $request->user();
+        $data = $this->studentService->getStudentPicketReports($request->user()->id);
 
-        $myReports = PicketReport::where('user_id', $user->id)
-            ->latest()
-            ->paginate(10);
-
-        return Inertia::render('Student/Picket/Report', [
-            'myReports' => $myReports,
-            'todayDate' => now()->translatedFormat('l, d F Y'),
-        ]);
+        return Inertia::render('Student/Picket/Report', $data);
     }
 
-    public function storeReport(Request $request): RedirectResponse
+    public function storeReport(StorePicketReportRequest $request): RedirectResponse
     {
-        $request->validate([
-            'notes' => ['nullable', 'string'],
-            'proof_file' => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:5120'],
-        ]);
-
-        $proofPath = $request->file('proof_file')->store('picket_proofs', 'public');
-
-        PicketReport::create([
-            'user_id' => $request->user()->id,
-            'date' => now()->format('Y-m-d'),
-            'proof_file' => $proofPath,
-            'notes' => $request->notes,
-            'status' => 'submitted',
-        ]);
+        $this->studentService->storePicketReport($request->user()->id, $request->validated());
 
         return redirect()->back()->with('success', 'Laporan piket hari ini berhasil dikirim.');
     }
