@@ -7,6 +7,11 @@ define('LARAVEL_START', microtime(true));
 
 // Setup temporary directories in /tmp for Vercel read-only filesystem
 if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
+    // Delete leftover public/hot in production serverless so it loads compiled build assets
+    if (file_exists(__DIR__.'/hot')) {
+        @unlink(__DIR__.'/hot');
+    }
+
     $dirs = [
         '/tmp/storage/framework/views',
         '/tmp/storage/framework/sessions',
