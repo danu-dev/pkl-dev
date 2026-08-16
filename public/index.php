@@ -30,6 +30,15 @@ if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
         }
         chmod($dbPath, 0777);
     }
+
+    // Set serverless env overrides
+    putenv('DB_DATABASE=/tmp/database.sqlite');
+    $_ENV['DB_DATABASE'] = '/tmp/database.sqlite';
+    $_SERVER['DB_DATABASE'] = '/tmp/database.sqlite';
+
+    putenv('SESSION_DRIVER=cookie');
+    $_ENV['SESSION_DRIVER'] = 'cookie';
+    $_SERVER['SESSION_DRIVER'] = 'cookie';
 }
 
 // Determine if the application is in maintenance mode...
@@ -47,11 +56,6 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     $app->useStoragePath('/tmp/storage');
     $app->useBootstrapPath('/tmp/bootstrap');
-    // Force SQLite database path and Session driver to cookie in Vercel
-    config([
-        'database.connections.sqlite.database' => '/tmp/database.sqlite',
-        'session.driver' => 'cookie',
-    ]);
 }
 
 $app->handleRequest(Request::capture());
