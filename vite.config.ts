@@ -33,8 +33,11 @@ export default defineConfig({
                 },
             },
         }),
-        wayfinder({
-            formVariants: true,
-        }),
+        // Only run wayfinder generation when PHP is present in the environment
+        ...(process.env.VERCEL ? [] : [
+            wayfinder({
+                formVariants: true,
+            }),
+        ]),
     ],
 });
