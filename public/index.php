@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
-// Setup temporary directories & storage in /tmp for Vercel read-only filesystem
+// Setup temporary directories in /tmp for Vercel read-only filesystem
 if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     $dirs = [
         '/tmp/storage/framework/views',
@@ -44,17 +44,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     $app->useStoragePath('/tmp/storage');
-    // Ensure all foundational providers are explicitly registered in serverless
-    $app->register(\Illuminate\View\ViewServiceProvider::class);
-    $app->register(\Illuminate\Database\DatabaseServiceProvider::class);
-    $app->register(\Illuminate\Session\SessionServiceProvider::class);
-    $app->register(\Illuminate\Filesystem\FilesystemServiceProvider::class);
-    $app->register(\Illuminate\Validation\ValidationServiceProvider::class);
+    $app->useBootstrapPath('/tmp/bootstrap');
 }
 
-try {
-    $app->handleRequest(Request::capture());
-} catch (\Throwable $e) {
-    http_response_code(500);
-    echo "<h1>Laravel Exception Details:</h1><pre>" . $e->getMessage() . "\n\n" . $e->getTraceAsString() . "</pre>";
-}
+$app->handleRequest(Request::capture());
