@@ -45,6 +45,7 @@
     "LOG_CHANNEL": "stderr",
     "CACHE_STORE": "array",
     "DB_CONNECTION": "sqlite",
-    "DB_DATABASE": "/tmp/database.sqlite"
+    "DB_DATABASE": "/tmp/database.sqlite",
+    "VERCEL_PHP_VERSION": "8.4.x"
   }
 }
