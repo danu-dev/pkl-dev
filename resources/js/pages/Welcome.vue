@@ -13,17 +13,17 @@ import {
     MapPin, 
     Mail, 
     Phone, 
-    MessageSquare, 
-    CheckCircle2,
+    CheckCircle2, 
+    Award, 
+    UserPlus, 
+    Building, 
+    FileText, 
+    ChevronRight, 
+    Menu, 
+    X, 
+    LogIn,
     CalendarCheck,
-    Award,
-    UserPlus,
-    Building,
-    FileText,
-    ChevronRight,
-    Menu,
-    X,
-    LogIn
+    MessageCircle
 } from '@lucide/vue';
 
 interface AlumniItem {
@@ -104,36 +104,36 @@ const getProcedureIcon = (iconName: string) => {
 <template>
     <Head title="SIPKL - Portal Monitoring & Jurnal PKL" />
 
-    <div class="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-[rgb(93,135,255)] selection:text-white">
-        <!-- 1. STICKY NAVBAR (CERAH & ELEGAN) -->
-        <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-xs">
+    <div class="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-[#2563EB] selection:text-white">
+        <!-- 1. STICKY NAVBAR -->
+        <header class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-xs">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-                <!-- Logo Brand -->
+                <!-- Logo Brand Resmi -->
                 <a href="#beranda" class="flex items-center gap-3 group">
-                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[rgb(93,135,255)] to-blue-500 text-white flex items-center justify-center font-extrabold text-xl shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-transform">
-                        PKL
+                    <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-sm bg-white border border-slate-100 flex items-center justify-center shrink-0">
+                        <img src="/images/app-icon.png" alt="SIPKL" class="w-full h-full object-contain" />
                     </div>
                     <div>
-                        <span class="font-extrabold text-lg text-slate-900 tracking-tight leading-none block">SIPKL System</span>
-                        <span class="text-xs text-slate-500 font-medium mt-0.5 block">Portal Monitoring Vokasi</span>
+                        <span class="font-black text-xl text-slate-900 tracking-tight leading-none block">SIPKL</span>
+                        <span class="text-[10px] text-slate-500 font-bold tracking-widest uppercase mt-0.5 block">Sistem Informasi PKL</span>
                     </div>
                 </a>
 
                 <!-- Desktop Nav Links -->
                 <nav class="hidden md:flex items-center gap-8 text-xs font-semibold text-slate-600">
-                    <a href="#beranda" class="hover:text-[rgb(93,135,255)] transition-colors">Beranda</a>
-                    <a href="#tentang" class="hover:text-[rgb(93,135,255)] transition-colors">Tentang</a>
-                    <a href="#alumni" class="hover:text-[rgb(93,135,255)] transition-colors">Alumni</a>
-                    <a href="#galeri" class="hover:text-[rgb(93,135,255)] transition-colors">Galeri</a>
-                    <a href="#prosedur" class="hover:text-[rgb(93,135,255)] transition-colors">Prosedur</a>
-                    <a href="#kontak" class="hover:text-[rgb(93,135,255)] transition-colors">Hubungi Kami</a>
+                    <a href="#beranda" class="hover:text-[#2563EB] transition-colors">Beranda</a>
+                    <a href="#tentang" class="hover:text-[#2563EB] transition-colors">Tentang</a>
+                    <a href="#alumni" class="hover:text-[#2563EB] transition-colors">Alumni</a>
+                    <a href="#galeri" class="hover:text-[#2563EB] transition-colors">Galeri</a>
+                    <a href="#prosedur" class="hover:text-[#2563EB] transition-colors">Prosedur</a>
+                    <a href="#kontak" class="hover:text-[#2563EB] transition-colors">Hubungi Kami</a>
                 </nav>
 
                 <!-- Action Button (HANYA TOMBOL LOGIN) -->
                 <div class="hidden md:flex items-center gap-3">
                     <Link 
                         href="/login" 
-                        class="px-5 py-2.5 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 flex items-center gap-2 text-xs transition-all hover:scale-105 active:scale-95"
+                        class="px-5 py-2.5 bg-[#2563EB] hover:bg-[#1E3A8A] text-white font-bold rounded-xl shadow-md shadow-blue-500/20 flex items-center gap-2 text-xs transition-all active:scale-95 cursor-pointer"
                     >
                         <LogIn class="w-4 h-4" />
                         <span>Login Portal</span>
@@ -153,17 +153,17 @@ const getProcedureIcon = (iconName: string) => {
             <!-- Mobile Nav Dropdown -->
             <div v-if="isMobileMenuOpen" class="md:hidden bg-white border-b border-slate-200 px-6 py-5 space-y-4">
                 <nav class="flex flex-col space-y-3 text-sm font-semibold text-slate-600">
-                    <a @click="isMobileMenuOpen = false" href="#beranda" class="hover:text-[rgb(93,135,255)]">Beranda</a>
-                    <a @click="isMobileMenuOpen = false" href="#tentang" class="hover:text-[rgb(93,135,255)]">Tentang</a>
-                    <a @click="isMobileMenuOpen = false" href="#alumni" class="hover:text-[rgb(93,135,255)]">Alumni</a>
-                    <a @click="isMobileMenuOpen = false" href="#galeri" class="hover:text-[rgb(93,135,255)]">Galeri</a>
-                    <a @click="isMobileMenuOpen = false" href="#prosedur" class="hover:text-[rgb(93,135,255)]">Prosedur</a>
-                    <a @click="isMobileMenuOpen = false" href="#kontak" class="hover:text-[rgb(93,135,255)]">Hubungi Kami</a>
+                    <a @click="isMobileMenuOpen = false" href="#beranda" class="hover:text-[#2563EB]">Beranda</a>
+                    <a @click="isMobileMenuOpen = false" href="#tentang" class="hover:text-[#2563EB]">Tentang</a>
+                    <a @click="isMobileMenuOpen = false" href="#alumni" class="hover:text-[#2563EB]">Alumni</a>
+                    <a @click="isMobileMenuOpen = false" href="#galeri" class="hover:text-[#2563EB]">Galeri</a>
+                    <a @click="isMobileMenuOpen = false" href="#prosedur" class="hover:text-[#2563EB]">Prosedur</a>
+                    <a @click="isMobileMenuOpen = false" href="#kontak" class="hover:text-[#2563EB]">Hubungi Kami</a>
                 </nav>
                 <div class="pt-3 border-t border-slate-100">
                     <Link 
                         href="/login" 
-                        class="w-full py-3 bg-[rgb(93,135,255)] text-white font-bold rounded-xl flex items-center justify-center gap-2 text-xs shadow-lg shadow-blue-500/25"
+                        class="w-full py-3 bg-[#2563EB] text-white font-bold rounded-xl flex items-center justify-center gap-2 text-xs shadow-md shadow-blue-500/20"
                     >
                         <LogIn class="w-4 h-4" />
                         <span>Login Portal</span>
@@ -172,21 +172,17 @@ const getProcedureIcon = (iconName: string) => {
             </div>
         </header>
 
-        <!-- 2. SEKSI BERANDA (HERO SECTION CERAH) -->
-        <section id="beranda" class="relative pt-16 pb-24 lg:pt-28 lg:pb-36 overflow-hidden bg-gradient-to-b from-blue-50/50 via-white to-slate-50">
-            <!-- Background Soft Elements -->
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-blue-400/15 rounded-full blur-[120px] pointer-events-none"></div>
-
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
+        <!-- 2. SEKSI BERANDA (SOLID COLOR CLEAN PALETTE) -->
+        <section id="beranda" class="relative pt-16 pb-20 lg:pt-24 lg:pb-32 bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
                 <!-- Badge Pengumuman -->
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200/80 text-xs font-semibold text-[rgb(93,135,255)] shadow-xs">
-                    <Sparkles class="w-4 h-4 text-amber-500 animate-pulse" />
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700">
+                    <Sparkles class="w-4 h-4 text-blue-600" />
                     <span>{{ sections.hero_badge || 'Pendaftaran Siswa PKL Tahun 2026/2027 Dibuka' }}</span>
                 </div>
 
                 <!-- Headline Main -->
-                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 max-w-4xl mx-auto leading-[1.1]">
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 max-w-4xl mx-auto leading-[1.15]">
                     {{ sections.hero_title || 'Sistem Informasi & Portal Monitoring Praktek Kerja Lapangan' }}
                 </h1>
 
@@ -196,10 +192,10 @@ const getProcedureIcon = (iconName: string) => {
                 </p>
 
                 <!-- Call to Action Buttons -->
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
                     <Link 
                         href="/login" 
-                        class="w-full sm:w-auto px-8 py-4 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-extrabold rounded-2xl shadow-xl shadow-blue-500/25 flex items-center justify-center gap-3 text-sm transition-all hover:scale-105 active:scale-95"
+                        class="w-full sm:w-auto px-8 py-4 bg-[#2563EB] hover:bg-[#1E3A8A] text-white font-extrabold rounded-2xl shadow-lg shadow-blue-500/20 flex items-center justify-center gap-3 text-sm transition-all active:scale-95 cursor-pointer"
                     >
                         <span>Masuk ke Portal SIPKL</span>
                         <ArrowRight class="w-5 h-5" />
@@ -207,111 +203,111 @@ const getProcedureIcon = (iconName: string) => {
 
                     <a 
                         href="#prosedur" 
-                        class="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 shadow-sm font-bold rounded-2xl flex items-center justify-center gap-2 text-sm transition-all"
+                        class="w-full sm:w-auto px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 font-bold rounded-2xl flex items-center justify-center gap-2 text-sm transition-all"
                     >
                         <span>Pelajari Prosedur</span>
-                        <ChevronRight class="w-4 h-4 text-slate-400" />
+                        <ChevronRight class="w-4 h-4 text-slate-500" />
                     </a>
                 </div>
 
-                <!-- Showcase Metrics Bar -->
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto pt-12">
-                    <div class="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
-                        <div class="text-2xl sm:text-3xl font-black text-slate-900">{{ sections.about_stat_students || '500+' }}</div>
-                        <div class="text-xs text-slate-500 font-medium mt-1">Siswa PKL Aktif</div>
+                <!-- Showcase Metrics Bar (Solid Colors) -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto pt-10">
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                        <div class="text-3xl font-black text-slate-900">{{ sections.about_stat_students || '500+' }}</div>
+                        <div class="text-xs text-slate-500 font-semibold mt-1">Siswa PKL Aktif</div>
                     </div>
 
-                    <div class="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
-                        <div class="text-2xl sm:text-3xl font-black text-[rgb(93,135,255)]">{{ sections.about_stat_schools || '45+' }}</div>
-                        <div class="text-xs text-slate-500 font-medium mt-1">Sekolah & Kampus Mitra</div>
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                        <div class="text-3xl font-black text-blue-600">{{ sections.about_stat_schools || '45+' }}</div>
+                        <div class="text-xs text-slate-500 font-semibold mt-1">Sekolah & Kampus Mitra</div>
                     </div>
 
-                    <div class="col-span-2 md:col-span-1 p-5 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
-                        <div class="text-2xl sm:text-3xl font-black text-emerald-600">{{ sections.about_stat_divisions || '12+' }}</div>
-                        <div class="text-xs text-slate-500 font-medium mt-1">Divisi Penempatan</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. SEKSI TENTANG KAMI (CERAH) -->
-        <section id="tentang" class="py-20 bg-white border-y border-slate-200/80 relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    <div class="lg:col-span-6 space-y-6">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-xs font-bold text-[rgb(93,135,255)] uppercase tracking-wider">
-                            Tentang SIPKL
-                        </div>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                            {{ sections.about_title || 'Transformasi Digital Pengelolaan Praktik Kerja Lapangan' }}
-                        </h2>
-                        <p class="text-sm text-slate-600 leading-relaxed">
-                            {{ sections.about_description || 'SIPKL dirancang khusus untuk mempermudah kolaborasi antara Siswa PKL, Pembimbing Sekolah, dan Instansi/Perusahaan. Kami menyediakan transparansi penuh dalam pencatatan kehadiran, verifikasi kegiatan harian, serta penilaian komprehensif.' }}
-                        </p>
-
-                        <div class="space-y-3 pt-2">
-                            <div class="flex items-center gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
-                                <CheckCircle2 class="w-5 h-5 text-emerald-600 shrink-0" />
-                                <span class="text-xs font-semibold text-slate-700">Pencatatan Absensi 1-Klik berbasis jam operasional real-time.</span>
-                            </div>
-                            <div class="flex items-center gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
-                                <CheckCircle2 class="w-5 h-5 text-emerald-600 shrink-0" />
-                                <span class="text-xs font-semibold text-slate-700">Verifikasi Jurnal Harian oleh Pembimbing Instansi & Admin.</span>
-                            </div>
-                            <div class="flex items-center gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
-                                <CheckCircle2 class="w-5 h-5 text-emerald-600 shrink-0" />
-                                <span class="text-xs font-semibold text-slate-700">Rekapitulasi Penilaian & Penerbitan Sertifikat Kelulusan PKL.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visual Cards Grid -->
-                    <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-3 hover:border-blue-200 transition-all">
-                            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-[rgb(93,135,255)] flex items-center justify-center">
-                                <Clock class="w-6 h-6" />
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-base">Presisi Kehadiran</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed">Sistem memverifikasi jam masuk, jam pulang, dan pengajuan izin sakit siswa secara akurat.</p>
-                        </div>
-
-                        <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-3 sm:mt-6 hover:border-emerald-200 transition-all">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                                <BookOpen class="w-6 h-6" />
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-base">Jurnal Digital</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed">Pengisian log aktivitas harian lengkap dengan lampiran bukti foto pekerjaan.</p>
-                        </div>
-
-                        <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-3 hover:border-amber-200 transition-all">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center">
-                                <ShieldCheck class="w-6 h-6" />
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-base">Approval Terstruktur</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed">Pendaftaran siswa dan rekapitulasi diproses melalui persetujuan multi-level admin.</p>
-                        </div>
-
-                        <div class="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-3 sm:mt-6 hover:border-purple-200 transition-all">
-                            <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center">
-                                <Award class="w-6 h-6" />
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-base">Evaluasi Vokasi</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed">Penilaian performa sikap, kedisiplinan, dan capaian teknis berbasis rubrik standar.</p>
-                        </div>
+                    <div class="col-span-2 md:col-span-1 p-5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                        <div class="text-3xl font-black text-blue-900">{{ sections.about_stat_divisions || '12+' }}</div>
+                        <div class="text-xs text-slate-500 font-semibold mt-1">Divisi Penempatan</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. SEKSI ALUMNI & TESTIMONI (CARD PERSIS GAMBAR: FOTO BESAR + FLOATING BADGE NAMA & SEKOLAH) -->
-        <section id="alumni" class="py-20 relative bg-slate-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                <div class="text-center space-y-3 max-w-2xl mx-auto">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-[rgb(93,135,255)] uppercase tracking-wider">
+        <!-- 3. SEKSI TENTANG KAMI (SOLID CLEAN BENTO) -->
+        <section id="tentang" class="py-24 bg-slate-50 border-b border-slate-200 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                <!-- Section Header -->
+                <div class="text-center space-y-4 max-w-3xl mx-auto">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 uppercase tracking-wider">
+                        Tentang SIPKL
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                        {{ sections.about_title || 'Transformasi Digital Pengelolaan Praktik Kerja Lapangan' }}
+                    </h2>
+                    <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+                        {{ sections.about_description || 'SIPKL dirancang khusus untuk mempermudah kolaborasi antara Siswa PKL, Pembimbing Sekolah, dan Instansi/Perusahaan. Kami menyediakan transparansi penuh dalam pencatatan kehadiran, verifikasi kegiatan harian, serta penilaian komprehensif.' }}
+                    </p>
+                </div>
+
+                <!-- Feature Cards Grid (Solid Clean White) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-8 rounded-3xl bg-white border border-slate-200 hover:border-blue-500 hover:shadow-lg transition-all duration-200 flex flex-col justify-between space-y-6">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center">
+                            <Clock class="w-6 h-6" />
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="font-extrabold text-slate-900 text-xl tracking-tight">Presisi Kehadiran 1-Klik</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Sistem memverifikasi jam masuk, jam pulang, dan pengajuan izin/sakit secara akurat sesuai batasan jam operasional yang ditentukan.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold text-blue-600">
+                            <CheckCircle2 class="w-4 h-4 text-blue-600" />
+                            <span>Terkunci Otomatis di Luar Jam Kerja</span>
+                        </div>
+                    </div>
+
+                    <div class="p-8 rounded-3xl bg-white border border-slate-200 hover:border-blue-500 hover:shadow-lg transition-all duration-200 flex flex-col justify-between space-y-6">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center">
+                            <BookOpen class="w-6 h-6" />
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="font-extrabold text-slate-900 text-xl tracking-tight">Jurnal Kegiatan Digital</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Pengisian log aktivitas harian lengkap dengan lampiran bukti foto atau berkas pekerjaan yang langsung diverifikasi pembimbing.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold text-blue-600">
+                            <CheckCircle2 class="w-4 h-4 text-blue-600" />
+                            <span>Verifikasi Berjenjang Admin & Mentor</span>
+                        </div>
+                    </div>
+
+                    <div class="p-8 rounded-3xl bg-white border border-slate-200 hover:border-blue-500 hover:shadow-lg transition-all duration-200 flex flex-col justify-between space-y-6">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center">
+                            <Award class="w-6 h-6" />
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="font-extrabold text-slate-900 text-xl tracking-tight">Evaluasi Nilai & Sertifikat</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Penilaian komprehensif mencakup disiplin, teknis, jurnal, dan sikap dengan perhitungan grade otomatis berstandar vokasi.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold text-blue-600">
+                            <CheckCircle2 class="w-4 h-4 text-blue-600" />
+                            <span>Kalkulasi Otomatis Grade A/B/C/D</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SEKSI ALUMNI & TESTIMONI (CARD SESUAI REFERENSI GAMBAR) -->
+        <section id="alumni" class="py-24 relative bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                <div class="text-center space-y-4 max-w-2xl mx-auto">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 uppercase tracking-wider">
                         Alumni PKL
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                        Semua Alumni Magang <span class="text-[rgb(93,135,255)]">SIPKL</span>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+                        Semua Alumni Magang <span class="text-[#2563EB]">SIPKL</span>
                     </h2>
                     <p class="text-xs sm:text-sm text-slate-600">Jejak prestasi dan dokumentasi peserta yang telah menyelesaikan program PKL.</p>
                 </div>
@@ -321,18 +317,17 @@ const getProcedureIcon = (iconName: string) => {
                     <div 
                         v-for="item in alumniList" 
                         :key="item.id" 
-                        class="relative rounded-3xl bg-white border border-slate-200/80 shadow-md shadow-slate-200/40 overflow-hidden hover:shadow-xl hover:-translate-y-1.5 transition-all flex flex-col justify-end group h-80 sm:h-96"
+                        class="relative rounded-3xl bg-white border border-slate-200 shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1.5 transition-all duration-200 flex flex-col justify-end group h-80 sm:h-96"
                     >
-                        <!-- Background Foto Alumni (Full Height Image with Overlay) -->
+                        <!-- Background Foto Alumni -->
                         <div class="absolute inset-0 bg-slate-100">
                             <img 
                                 v-if="item.photo_path" 
                                 :src="item.photo_path.startsWith('http') ? item.photo_path : `/storage/${item.photo_path}`" 
                                 :alt="item.name" 
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
                             />
-                            <!-- Placeholder Image / Initial if no photo -->
-                            <div v-else class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-tr from-blue-100 to-indigo-50 text-[rgb(93,135,255)]">
+                            <div v-else class="w-full h-full flex flex-col items-center justify-center bg-blue-50 text-blue-700">
                                 <span class="text-5xl font-black">{{ item?.username ? item.username.replace('@', '').charAt(0).toUpperCase() : (item?.name ? item.name.charAt(0).toUpperCase() : 'A') }}</span>
                                 <span class="text-xs font-semibold text-slate-400 mt-2 font-mono">{{ item.username || '@alumni_pkl' }}</span>
                             </div>
@@ -340,18 +335,18 @@ const getProcedureIcon = (iconName: string) => {
 
                         <!-- Badge Tag Divisi / Team di Pojok Kiri Atas -->
                         <div class="absolute top-4 left-4 z-10">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-bold text-slate-700 shadow-xs border border-white/40">
-                                <Users class="w-3.5 h-3.5 text-[rgb(93,135,255)]" />
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[11px] font-bold text-slate-700 shadow-xs border border-slate-200">
+                                <Users class="w-3.5 h-3.5 text-blue-600" />
                                 <span>{{ item.division_name || 'Team PKL' }}</span>
                             </span>
                         </div>
 
-                        <!-- Floating Bottom Info Box (Persis Gambar: Nama Besar & Asal Sekolah / Divisi Biru) -->
-                        <div class="relative z-10 m-3 p-4 bg-white/95 backdrop-blur-md rounded-2xl border border-slate-100 shadow-md text-center space-y-1">
+                        <!-- Floating Bottom Info Box -->
+                        <div class="relative z-10 m-3 p-4 bg-white rounded-2xl border border-slate-100 shadow-md text-center space-y-1">
                             <h4 class="font-extrabold text-slate-900 text-base sm:text-lg tracking-tight truncate">
                                 {{ item.name }}
                             </h4>
-                            <p class="text-xs font-bold text-[rgb(93,135,255)] truncate">
+                            <p class="text-xs font-bold text-blue-600 truncate">
                                 {{ item.school_name }}
                             </p>
                             <p v-if="item.username" class="text-[10px] text-slate-400 font-mono">
@@ -363,51 +358,52 @@ const getProcedureIcon = (iconName: string) => {
             </div>
         </section>
 
-        <!-- 5. SEKSI GALERI KEGIATAN (CERAH) -->
-        <section id="galeri" class="py-20 bg-white border-y border-slate-200/80 relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <!-- 5. SEKSI GALERI KEGIATAN (SOLID COLOR PHOTO SHOWCASE) -->
+        <section id="galeri" class="py-24 bg-slate-50 border-b border-slate-200 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div class="space-y-3 max-w-xl">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 uppercase tracking-wider">
-                            Dokumentasi
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 uppercase tracking-wider">
+                            Dokumentasi & Galeri
                         </div>
-                        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Galeri Kegiatan PKL</h2>
-                        <p class="text-xs sm:text-sm text-slate-600">Potret aktivitas harian, pembelajaran teknis, dan momen orientasi siswa PKL.</p>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">Galeri Kegiatan PKL</h2>
+                        <p class="text-xs sm:text-sm text-slate-600">Potret aktivitas harian, pembelajaran teknis, dan momen berharga peserta PKL.</p>
                     </div>
 
-                    <!-- Category Filter Buttons -->
-                    <div class="flex flex-wrap gap-2">
+                    <!-- Category Filter Buttons (Solid Color) -->
+                    <div class="flex flex-wrap gap-2 p-1.5 bg-white rounded-2xl border border-slate-200">
                         <button 
                             v-for="cat in galleryCategories" 
                             :key="cat"
                             @click="activeGalleryCategory = cat"
                             class="px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
-                            :class="activeGalleryCategory === cat ? 'bg-[rgb(93,135,255)] text-white shadow-md shadow-blue-500/20' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+                            :class="activeGalleryCategory === cat ? 'bg-[#2563EB] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'"
                         >
                             {{ cat }}
                         </button>
                     </div>
                 </div>
 
-                <!-- Gallery Grid -->
+                <!-- Gallery Grid (Clean Solid Cards) -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div 
                         v-for="item in filteredGallery" 
                         :key="item.id" 
-                        class="group rounded-3xl bg-slate-50 border border-slate-200/80 overflow-hidden hover:shadow-lg transition-all flex flex-col"
+                        class="group rounded-3xl bg-white border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-200 flex flex-col justify-between"
                     >
-                        <div class="relative h-48 overflow-hidden bg-slate-200">
+                        <div class="relative h-56 overflow-hidden bg-slate-100">
                             <img 
                                 :src="item.image_path" 
                                 :alt="item.title" 
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
                             />
-                            <span class="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md border border-slate-200 rounded-full text-[10px] font-bold text-[rgb(93,135,255)] shadow-xs">
+                            <!-- Category Badge Solid -->
+                            <span class="absolute top-3 left-3 px-3 py-1 bg-white border border-slate-200 rounded-full text-[10px] font-bold text-blue-700 shadow-xs">
                                 {{ item.category }}
                             </span>
                         </div>
-                        <div class="p-5 space-y-1 flex-1 flex flex-col justify-between bg-white">
-                            <h3 class="font-bold text-slate-900 text-sm group-hover:text-[rgb(93,135,255)] transition-colors">{{ item.title }}</h3>
+                        <div class="p-6 space-y-1.5 bg-white">
+                            <h3 class="font-extrabold text-slate-900 text-base group-hover:text-blue-600 transition-colors leading-snug">{{ item.title }}</h3>
                             <p v-if="item.caption" class="text-xs text-slate-500 leading-relaxed">{{ item.caption }}</p>
                         </div>
                     </div>
@@ -415,115 +411,179 @@ const getProcedureIcon = (iconName: string) => {
             </div>
         </section>
 
-        <!-- 6. SEKSI PROSEDUR & ALUR (CERAH) -->
-        <section id="prosedur" class="py-20 relative bg-slate-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                <div class="text-center space-y-3 max-w-2xl mx-auto">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-xs font-bold text-amber-700 uppercase tracking-wider">
+        <!-- 6. SEKSI PROSEDUR & ALUR PKL (SOLID BLUE ACCENTS) -->
+        <section id="prosedur" class="py-24 relative bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                <div class="text-center space-y-4 max-w-2xl mx-auto">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 uppercase tracking-wider">
                         Panduan Langkah
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Prosedur & Alur PKL</h2>
-                    <p class="text-xs sm:text-sm text-slate-600">Langkah-langkah sistematis pendaftaran siswa hingga penyelesaian magang.</p>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">Prosedur & Alur PKL</h2>
+                    <p class="text-xs sm:text-sm text-slate-600">Langkah-langkah sistematis pendaftaran siswa hingga penyelesaian magang dan sertifikasi.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <!-- 5 Steps Flow Grid (Clean Solid Colors) -->
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
                     <div 
                         v-for="proc in procedureList" 
                         :key="proc.id" 
-                        class="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all space-y-4 relative flex flex-col justify-between"
+                        class="p-6 rounded-3xl bg-slate-50 border border-slate-200 hover:border-blue-500 hover:bg-white hover:shadow-md transition-all duration-200 space-y-5 flex flex-col justify-between group"
                     >
                         <div class="flex items-center justify-between">
-                            <span class="w-8 h-8 rounded-full bg-blue-50 text-[rgb(93,135,255)] font-black text-sm flex items-center justify-center border border-blue-200">
+                            <!-- Solid Blue Step Number -->
+                            <span class="w-10 h-10 rounded-2xl bg-[#2563EB] text-white font-black text-sm flex items-center justify-center shadow-xs">
                                 {{ proc.step_number }}
                             </span>
-                            <component :is="getProcedureIcon(proc.icon)" class="w-5 h-5 text-slate-400" />
+                            <div class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-600 flex items-center justify-center">
+                                <component :is="getProcedureIcon(proc.icon)" class="w-4 h-4" />
+                            </div>
                         </div>
 
-                        <div class="space-y-1.5">
-                            <h3 class="font-bold text-slate-900 text-sm">{{ proc.title }}</h3>
+                        <div class="space-y-2">
+                            <h3 class="font-extrabold text-slate-900 text-base tracking-tight leading-snug">{{ proc.title }}</h3>
                             <p class="text-xs text-slate-500 leading-relaxed">{{ proc.description }}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-200 flex items-center gap-1.5 text-[11px] font-bold text-blue-600">
+                            <span>Tahap {{ proc.step_number }}</span>
+                            <ChevronRight class="w-3.5 h-3.5" />
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 7. SEKSI HUBUNGI KAMI & FOOTER (CERAH + CONTRAST CALLOUT) -->
-        <section id="kontak" class="py-20 bg-white border-t border-slate-200/80 relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                    <!-- Left Info -->
-                    <div class="lg:col-span-5 space-y-6">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-[rgb(93,135,255)] uppercase tracking-wider">
-                            Hubungi Kami
+        <!-- 7. SEKSI HUBUNGI KAMI (SOLID COLORS HARMONY) -->
+        <section id="kontak" class="py-24 bg-slate-50 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+                    <!-- Left Contact Info -->
+                    <div class="lg:col-span-6 space-y-6 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 uppercase tracking-wider">
+                                Hubungi Kami
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Informasi Layanan & Bantuan</h2>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                Punya pertanyaan seputar pendaftaran PKL, teknis jurnal, atau kemitraan sekolah? Tim kami siap membantu Anda setiap hari kerja.
+                            </p>
                         </div>
-                        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Informasi Layanan & Kontak</h2>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                            Punya pertanyaan seputar pendaftaran PKL atau bantuan teknis portal? Tim admin kami siap membantu Anda.
-                        </p>
 
-                        <div class="space-y-4 pt-2">
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-blue-50 text-[rgb(93,135,255)] flex items-center justify-center shrink-0 border border-blue-100">
-                                    <MapPin class="w-5 h-5" />
+                        <!-- Contact Cards (Clean Solid) -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- WhatsApp -->
+                            <a 
+                                :href="`https://wa.me/${(sections.contact_whatsapp || '081234567890').replace(/[^0-9]/g, '')}`" 
+                                target="_blank"
+                                class="p-5 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 hover:shadow-sm transition-all group"
+                            >
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0">
+                                        <MessageCircle class="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900">Chat WhatsApp</h4>
+                                        <p class="text-xs text-emerald-600 font-semibold mt-0.5">{{ sections.contact_whatsapp || '081234567890' }}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4 class="text-xs font-bold text-slate-800">Alamat Pusat</h4>
-                                    <p class="text-xs text-slate-600 mt-0.5">{{ sections.contact_address || 'Jl. Pendidikan No. 88, Surabaya' }}</p>
+                            </a>
+
+                            <!-- Email -->
+                            <a 
+                                :href="`mailto:${sections.contact_email || 'admin@sipkl.sch.id'}`"
+                                class="p-5 rounded-2xl bg-white border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all group"
+                            >
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-[#2563EB] text-white flex items-center justify-center shrink-0">
+                                        <Mail class="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900">Email Resmi</h4>
+                                        <p class="text-xs text-blue-600 font-semibold mt-0.5 truncate">{{ sections.contact_email || 'admin@sipkl.sch.id' }}</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Phone -->
+                            <div class="p-5 rounded-2xl bg-white border border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center shrink-0">
+                                        <Phone class="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900">Telepon Kantor</h4>
+                                        <p class="text-xs text-slate-600 font-semibold mt-0.5">{{ sections.contact_phone || '+62 31 8765432' }}</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
-                                    <Mail class="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-bold text-slate-800">Email Resmi</h4>
-                                    <p class="text-xs text-slate-600 mt-0.5">{{ sections.contact_email || 'admin@sipkl.sch.id' }}</p>
+                            <!-- Office Hours -->
+                            <div class="p-5 rounded-2xl bg-white border border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center shrink-0">
+                                        <Clock class="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900">Jam Operasional</h4>
+                                        <p class="text-xs text-slate-600 mt-0.5">{{ sections.contact_hours || 'Senin - Jumat: 08:00 - 16:00' }}</p>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
-                                    <Phone class="w-5 h-5" />
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-bold text-slate-800">Telepon & WhatsApp</h4>
-                                    <p class="text-xs text-slate-600 mt-0.5">{{ sections.contact_phone || '+62 31 8765432' }} (WA: {{ sections.contact_whatsapp || '081234567890' }})</p>
-                                </div>
+                        <!-- Address -->
+                        <div class="p-5 rounded-2xl bg-white border border-slate-200 flex items-start gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 text-[#2563EB] flex items-center justify-center shrink-0">
+                                <MapPin class="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900">Alamat Kantor Pusat</h4>
+                                <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">{{ sections.contact_address || 'Jl. Pendidikan No. 88, Gedung Pusat Pembinaan Vokasi, Surabaya' }}</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right Quick Login Callout Card -->
-                    <div class="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[rgb(93,135,255)] via-blue-600 to-indigo-900 text-white space-y-6 flex flex-col justify-between shadow-xl shadow-blue-500/20 relative overflow-hidden">
-                        <!-- Background Mesh -->
-                        <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-
-                        <div class="space-y-3 relative z-10">
-                            <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center font-extrabold text-xl shadow-md">
-                                PKL
+                    <!-- Right Quick Access Card (Solid Deep Navy #1E3A8A) -->
+                    <div class="lg:col-span-6 p-8 sm:p-12 rounded-3xl bg-[#1E3A8A] text-white space-y-8 flex flex-col justify-between shadow-xl relative overflow-hidden">
+                        <div class="space-y-4 relative z-10">
+                            <div class="w-16 h-16 rounded-2xl overflow-hidden shadow-sm flex items-center justify-center bg-white p-1">
+                                <img src="/images/app-icon.png" alt="SIPKL" class="w-full h-full object-contain" />
                             </div>
-                            <h3 class="text-2xl sm:text-3xl font-black">Siap Mengakses Portal SIPKL?</h3>
-                            <p class="text-xs sm:text-sm text-blue-100/90 leading-relaxed">
-                                Silakan masuk menggunakan akun siswa PKL atau akun administrator yang telah terverifikasi untuk melanjutkan absensi dan pelaporan jurnal.
+                            <h3 class="text-2xl sm:text-3xl font-black leading-tight">Siap Memulai Praktik Kerja Lapangan?</h3>
+                            <p class="text-xs sm:text-sm text-blue-100 leading-relaxed font-normal">
+                                Akses portal SIPKL sekarang untuk mulai melakukan absensi harian presisi, menyusun jurnal berkala, dan memantau penilaian pembimbing.
                             </p>
                         </div>
 
-                        <div class="pt-4 relative z-10">
+                        <div class="space-y-3 relative z-10 pt-4">
                             <Link 
                                 href="/login" 
-                                class="w-full py-4 bg-white hover:bg-slate-100 text-[rgb(93,135,255)] font-extrabold rounded-2xl shadow-xl flex items-center justify-center gap-3 text-sm transition-all hover:scale-[1.01]"
+                                class="w-full py-4 bg-[#2563EB] hover:bg-blue-600 text-white font-extrabold rounded-2xl shadow-md flex items-center justify-center gap-3 text-sm transition-all active:scale-95 cursor-pointer"
                             >
-                                <span>Masuk Sekarang ke Halaman Login</span>
-                                <ArrowRight class="w-5 h-5 text-[rgb(93,135,255)]" />
+                                <LogIn class="w-5 h-5 text-white" />
+                                <span>Masuk ke Akun Portal</span>
                             </Link>
+
+                            <p class="text-center text-xs text-blue-200">
+                                <span>Belum terdaftar? Silakan </span>
+                                <Link href="/login" class="underline font-bold text-white hover:text-blue-100">Masuk ke Halaman Login</Link>
+                                <span> untuk mendaftar akun baru.</span>
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="pt-12 border-t border-slate-200 text-center text-xs text-slate-500">
+                <!-- Footer Bottom -->
+                <div class="pt-12 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
                     <p>© 2026 SIPKL Application System. Built with SOLID Laravel & Inertia.js.</p>
+                    <div class="flex items-center gap-6 font-semibold">
+                        <a href="#beranda" class="hover:text-[#2563EB]">Beranda</a>
+                        <a href="#tentang" class="hover:text-[#2563EB]">Tentang</a>
+                        <a href="#alumni" class="hover:text-[#2563EB]">Alumni</a>
+                        <a href="#galeri" class="hover:text-[#2563EB]">Galeri</a>
+                        <a href="#prosedur" class="hover:text-[#2563EB]">Prosedur</a>
+                        <a href="#kontak" class="hover:text-[#2563EB]">Hubungi Kami</a>
+                    </div>
                 </div>
             </div>
         </section>

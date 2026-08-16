@@ -32,10 +32,10 @@ const submit = () => {
         <!-- Minimalist Back to Home -->
         <div class="w-full max-w-md mb-4 flex items-center justify-between">
             <Link href="/" class="flex items-center gap-2.5 group">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[rgb(93,135,255)] to-blue-500 text-white flex items-center justify-center font-extrabold text-base shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-                    PKL
+                <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform shrink-0">
+                    <img src="/images/app-icon.png" alt="SIPKL" class="w-full h-full object-contain" />
                 </div>
-                <span class="font-bold text-slate-900 text-base">SIPKL System</span>
+                <span class="font-black text-slate-900 text-base tracking-tight">SIPKL System</span>
             </Link>
 
             <Link href="/" class="text-xs font-semibold text-slate-500 hover:text-[rgb(93,135,255)] flex items-center gap-1 transition-colors">

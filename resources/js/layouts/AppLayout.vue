@@ -35,11 +35,11 @@ const toggleSidebar = () => {
     <div class="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col md:flex-row">
         <!-- Sidebar Mobile Toggle -->
         <div class="md:hidden flex items-center justify-between bg-white px-4 py-3 border-b border-slate-200">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-[rgb(93,135,255)] text-white flex items-center justify-center font-bold text-lg">
-                    P
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl overflow-hidden shadow-md shadow-blue-500/20">
+                    <img src="/images/app-icon.png" alt="SIPKL" class="w-full h-full object-contain" />
                 </div>
-                <span class="font-semibold text-slate-900 tracking-tight">SIPKL App</span>
+                <span class="font-black text-slate-900 tracking-tight text-base">SIPKL App</span>
             </div>
             <button @click="toggleSidebar" class="p-2 text-slate-600 hover:text-slate-900">
                 <Menu v-if="!isSidebarOpen" class="w-6 h-6" />
@@ -57,12 +57,12 @@ const toggleSidebar = () => {
             <div class="flex flex-col h-full">
                 <!-- App Header Logo -->
                 <div class="p-5 border-b border-slate-100 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[rgb(93,135,255)] to-blue-500 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-blue-500/20">
-                        PKL
+                    <div class="w-11 h-11 rounded-2xl overflow-hidden shadow-md shadow-blue-500/20 shrink-0">
+                        <img src="/images/app-icon.png" alt="SIPKL" class="w-full h-full object-contain" />
                     </div>
                     <div>
-                        <h1 class="font-bold text-slate-900 leading-tight">SIPKL System</h1>
-                        <p class="text-xs text-slate-500 font-medium">Portal Monitoring PKL</p>
+                        <h1 class="font-extrabold text-slate-900 leading-tight text-base tracking-tight">SIPKL System</h1>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Portal Monitoring PKL</p>
                     </div>
                 </div>
 
