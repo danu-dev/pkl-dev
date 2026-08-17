@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Clock, BookOpen, Award } from '@lucide/vue';
-import { useIntersectionObserver, useWindowScroll } from '@vueuse/core';
-import { ref, computed } from 'vue';
+import { useIntersectionObserver } from '@vueuse/core';
+import { ref } from 'vue';
 
 import { Badge } from '@/components/ui/badge';
 import {
@@ -26,36 +26,22 @@ useIntersectionObserver(
             isFiturVisible.value = true;
         }
     },
-    { threshold: 0.15 },
+    { threshold: 0.05 },
 );
-
-const { y: scrollY } = useWindowScroll();
-
-const bgParallaxStyle = computed(() => {
-    const offset = Math.min((scrollY.value - 400) * 0.1, 80);
-    return {
-        transform: `translate3d(0, ${offset.toFixed(1)}px, 0)`,
-    };
-});
 </script>
 
 <template>
     <section
         id="fitur"
         ref="fiturSectionRef"
-        class="relative overflow-hidden border-b border-zinc-200 bg-zinc-50/60 py-24"
+        class="relative overflow-hidden border-b border-zinc-200 bg-zinc-50/60 py-16 sm:py-20 md:py-24"
     >
-        <!-- Floating Ambient Glow Background Parallax -->
-        <div
-            :style="bgParallaxStyle"
-            class="pointer-events-none absolute right-1/4 -bottom-24 h-96 w-96 rounded-full bg-zinc-200/50 blur-3xl transition-transform ease-out will-change-transform"
-        ></div>
         <div
             class="pointer-events-none absolute inset-0 bg-[radial-gradient(#e4e4e7_1px,transparent_1px)] [background-size:20px_20px] opacity-60"
         ></div>
 
         <div
-            class="relative z-10 mx-auto max-w-6xl space-y-16 px-4 sm:px-6 lg:px-8"
+            class="relative z-10 mx-auto max-w-6xl space-y-12 sm:space-y-16 px-4 sm:px-6 lg:px-8"
         >
             <!-- Section Header -->
             <div
@@ -63,12 +49,12 @@ const bgParallaxStyle = computed(() => {
                 :class="
                     isFiturVisible
                         ? 'translate-y-0 scale-100 opacity-100'
-                        : 'translate-y-8 scale-95 opacity-0'
+                        : 'translate-y-6 opacity-0 sm:translate-y-8 sm:scale-95'
                 "
             >
                 <Badge
                     variant="outline"
-                    class="border-zinc-300 bg-white text-[10px] font-semibold tracking-wider text-zinc-800 uppercase"
+                    class="border-zinc-300 bg-white text-[10px] font-semibold tracking-wider text-zinc-800 uppercase shadow-2xs"
                 >
                     Fitur Unggulan
                 </Badge>
@@ -81,7 +67,7 @@ const bgParallaxStyle = computed(() => {
                     }}
                 </h2>
                 <p
-                    class="px-3 text-xs leading-relaxed text-zinc-500 sm:px-0 sm:text-sm"
+                    class="px-3 text-xs leading-relaxed text-zinc-600 sm:px-0 sm:text-sm"
                 >
                     {{
                         sections.about_description ||
@@ -91,33 +77,33 @@ const bgParallaxStyle = computed(() => {
             </div>
 
             <!-- Bento Box Cards Layout -->
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div class="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-3">
                 <!-- Feature Card 1 -->
                 <Card
-                    class="group relative flex flex-col justify-between overflow-hidden border-zinc-200/90 bg-white shadow-xs transition-all duration-500 hover:-translate-y-2 hover:border-zinc-400 hover:shadow-xl"
+                    class="group relative flex flex-col justify-between overflow-hidden border-zinc-200/90 bg-white shadow-xs transition-all duration-500 hover:-translate-y-1.5 hover:border-zinc-400 hover:shadow-lg"
                     :class="
                         isFiturVisible
-                            ? 'translate-y-0 scale-100 opacity-100'
-                            : 'translate-y-12 scale-95 opacity-0'
+                            ? 'translate-y-0 opacity-100'
+                            : 'translate-y-8 opacity-0 sm:scale-95'
                     "
-                    style="transition-delay: 100ms"
+                    style="transition-delay: 50ms"
                 >
                     <div
                         class="absolute inset-0 bg-gradient-to-b from-zinc-50/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     ></div>
 
-                    <CardHeader class="relative z-10 space-y-4">
+                    <CardHeader class="relative z-10 space-y-3 sm:space-y-4 p-5 sm:p-6">
                         <div
-                            class="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-900 shadow-2xs transition-all duration-300 group-hover:scale-110 group-hover:bg-zinc-950 group-hover:text-white"
+                            class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-900 shadow-2xs transition-all duration-300 group-hover:scale-110 group-hover:bg-zinc-950 group-hover:text-white"
                         >
                             <Clock class="h-5 w-5" />
                         </div>
                         <div class="space-y-1.5">
-                            <CardTitle class="text-lg font-bold text-zinc-900">
+                            <CardTitle class="text-base sm:text-lg font-bold text-zinc-900">
                                 Presisi Kehadiran 1-Klik
                             </CardTitle>
                             <CardDescription
-                                class="text-xs leading-relaxed text-zinc-500"
+                                class="text-xs leading-relaxed text-zinc-600"
                             >
                                 Pencatatan jam masuk & pulang terverifikasi
                                 sistem dengan batasan jadwal kerja harian yang
@@ -125,9 +111,9 @@ const bgParallaxStyle = computed(() => {
                             </CardDescription>
                         </div>
                     </CardHeader>
-                    <CardContent class="relative z-10">
+                    <CardContent class="relative z-10 p-5 pt-0 sm:p-6 sm:pt-0">
                         <div
-                            class="flex items-center justify-between rounded-xl border border-zinc-100 bg-zinc-50/90 p-3 text-xs font-medium text-zinc-700 transition-colors group-hover:border-zinc-200 group-hover:bg-zinc-50"
+                            class="flex items-center justify-between rounded-xl border border-zinc-200/70 bg-zinc-50 p-3 text-xs font-medium text-zinc-700 transition-colors group-hover:border-zinc-300"
                         >
                             <span>Status Jam Kerja</span>
                             <span
@@ -141,30 +127,30 @@ const bgParallaxStyle = computed(() => {
 
                 <!-- Feature Card 2 -->
                 <Card
-                    class="group relative flex flex-col justify-between overflow-hidden border-zinc-200/90 bg-white shadow-xs transition-all duration-500 hover:-translate-y-2 hover:border-zinc-400 hover:shadow-xl"
+                    class="group relative flex flex-col justify-between overflow-hidden border-zinc-200/90 bg-white shadow-xs transition-all duration-500 hover:-translate-y-1.5 hover:border-zinc-400 hover:shadow-lg"
                     :class="
                         isFiturVisible
-                            ? 'translate-y-0 scale-100 opacity-100'
-                            : 'translate-y-12 scale-95 opacity-0'
+                            ? 'translate-y-0 opacity-100'
+                            : 'translate-y-8 opacity-0 sm:scale-95'
                     "
-                    style="transition-delay: 250ms"
+                    style="transition-delay: 150ms"
                 >
                     <div
                         class="absolute inset-0 bg-gradient-to-b from-zinc-50/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     ></div>
 
-                    <CardHeader class="relative z-10 space-y-4">
+                    <CardHeader class="relative z-10 space-y-3 sm:space-y-4 p-5 sm:p-6">
                         <div
-                            class="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-900 shadow-2xs transition-all duration-300 group-hover:scale-110 group-hover:bg-zinc-950 group-hover:text-white"
+                            class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-900 shadow-2xs transition-all duration-300 group-hover:scale-110 group-hover:bg-zinc-950 group-hover:text-white"
                         >
                             <BookOpen class="h-5 w-5" />
                         </div>
                         <div class="space-y-1.5">
-                            <CardTitle class="text-lg font-bold text-zinc-900">
+                            <CardTitle class="text-base sm:text-lg font-bold text-zinc-900">
                                 Logbook Jurnal Digital
                             </CardTitle>
                             <CardDescription
-                                class="text-xs leading-relaxed text-zinc-500"
+                                class="text-xs leading-relaxed text-zinc-600"
                             >
                                 Dokumentasikan setiap pekerjaan harian dan
                                 lampiran foto yang langsung dapat ditinjau dan
@@ -172,13 +158,13 @@ const bgParallaxStyle = computed(() => {
                             </CardDescription>
                         </div>
                     </CardHeader>
-                    <CardContent class="relative z-10">
+                    <CardContent class="relative z-10 p-5 pt-0 sm:p-6 sm:pt-0">
                         <div
-                            class="flex items-center justify-between rounded-xl border border-zinc-100 bg-zinc-50/90 p-3 text-xs font-medium text-zinc-700 transition-colors group-hover:border-zinc-200 group-hover:bg-zinc-50"
+                            class="flex items-center justify-between rounded-xl border border-zinc-200/70 bg-zinc-50 p-3 text-xs font-medium text-zinc-700 transition-colors group-hover:border-zinc-300"
                         >
                             <span>Verifikasi Berjenjang</span>
                             <span
-                                class="text-[11px] font-semibold text-emerald-600"
+                                class="text-[11px] font-semibold text-emerald-700"
                             >
                                 Tersetujui Otomatis
                             </span>
@@ -188,46 +174,45 @@ const bgParallaxStyle = computed(() => {
 
                 <!-- Feature Card 3 -->
                 <Card
-                    class="group relative flex flex-col justify-between overflow-hidden border-zinc-200/90 bg-white shadow-xs transition-all duration-500 hover:-translate-y-2 hover:border-zinc-400 hover:shadow-xl"
+                    class="group relative flex flex-col justify-between overflow-hidden border-zinc-200/90 bg-white shadow-xs transition-all duration-500 hover:-translate-y-1.5 hover:border-zinc-400 hover:shadow-lg"
                     :class="
                         isFiturVisible
-                            ? 'translate-y-0 scale-100 opacity-100'
-                            : 'translate-y-12 scale-95 opacity-0'
+                            ? 'translate-y-0 opacity-100'
+                            : 'translate-y-8 opacity-0 sm:scale-95'
                     "
-                    style="transition-delay: 400ms"
+                    style="transition-delay: 250ms"
                 >
                     <div
                         class="absolute inset-0 bg-gradient-to-b from-zinc-50/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     ></div>
 
-                    <CardHeader class="relative z-10 space-y-4">
+                    <CardHeader class="relative z-10 space-y-3 sm:space-y-4 p-5 sm:p-6">
                         <div
-                            class="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-900 shadow-2xs transition-all duration-300 group-hover:scale-110 group-hover:bg-zinc-950 group-hover:text-white"
+                            class="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-900 shadow-2xs transition-all duration-300 group-hover:scale-110 group-hover:bg-zinc-950 group-hover:text-white"
                         >
                             <Award class="h-5 w-5" />
                         </div>
                         <div class="space-y-1.5">
-                            <CardTitle class="text-lg font-bold text-zinc-900">
-                                Rekapitulasi Penilaian
+                            <CardTitle class="text-base sm:text-lg font-bold text-zinc-900">
+                                Transkrip Nilai Otomatis
                             </CardTitle>
                             <CardDescription
-                                class="text-xs leading-relaxed text-zinc-500"
+                                class="text-xs leading-relaxed text-zinc-600"
                             >
-                                Kalkulasi nilai otomatis mencakup aspek
-                                kehadiran, disiplin, pelaksanaan jurnal, dan
-                                evaluasi capaian tugas akhir.
+                                Rekapitulasi nilai akhir berdasarkan indikator
+                                soft-skill & hard-skill industri yang terstandardisasi.
                             </CardDescription>
                         </div>
                     </CardHeader>
-                    <CardContent class="relative z-10">
+                    <CardContent class="relative z-10 p-5 pt-0 sm:p-6 sm:pt-0">
                         <div
-                            class="flex items-center justify-between rounded-xl border border-zinc-100 bg-zinc-50/90 p-3 text-xs font-medium text-zinc-700 transition-colors group-hover:border-zinc-200 group-hover:bg-zinc-50"
+                            class="flex items-center justify-between rounded-xl border border-zinc-200/70 bg-zinc-50 p-3 text-xs font-medium text-zinc-700 transition-colors group-hover:border-zinc-300"
                         >
-                            <span>Standar Penilaian</span>
+                            <span>Standar Kompetensi</span>
                             <span
                                 class="font-mono text-[11px] font-bold text-zinc-900"
                             >
-                                Grade A/B/C/D
+                                Rubrik A+ Terakreditasi
                             </span>
                         </div>
                     </CardContent>

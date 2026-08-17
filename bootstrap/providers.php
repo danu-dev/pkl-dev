@@ -7,4 +7,3 @@ return [
     ViewServiceProvider::class,
     AppServiceProvider::class,
 ];
-

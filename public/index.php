@@ -21,13 +21,13 @@ if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     ];
 
     foreach ($dirs as $dir) {
-        if (!is_dir($dir)) {
+        if (! is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
     }
 
     $dbPath = '/tmp/database.sqlite';
-    if (!file_exists($dbPath) || filesize($dbPath) === 0) {
+    if (! file_exists($dbPath) || filesize($dbPath) === 0) {
         if (file_exists(__DIR__.'/../database/database.sqlite') && filesize(__DIR__.'/../database/database.sqlite') > 0) {
             copy(__DIR__.'/../database/database.sqlite', $dbPath);
         } else {
