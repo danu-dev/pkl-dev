@@ -14,6 +14,8 @@ import {
     CalendarCheck,
     ChevronRight,
 } from '@lucide/vue';
+import { useIntersectionObserver } from '@vueuse/core';
+import { ref } from 'vue';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,6 +28,19 @@ defineProps<{
     isAuthenticated: boolean;
     userDashboardUrl: string;
 }>();
+
+const heroRef = ref<HTMLElement | null>(null);
+const isHeroVisible = ref(false);
+
+useIntersectionObserver(
+    heroRef,
+    ([{ isIntersecting }]) => {
+        if (isIntersecting) {
+            isHeroVisible.value = true;
+        }
+    },
+    { threshold: 0.05 },
+);
 </script>
 
 <template>
@@ -53,9 +68,10 @@ defineProps<{
             class="pointer-events-none absolute inset-0 bg-[radial-gradient(#e4e4e7_1px,transparent_1px)] [background-size:24px_24px] opacity-60"
         ></div>
 
-        <!-- Floating Badges -->
+        <!-- Floating Badges with Smooth Gentle Floating CSS Keyframe -->
         <div
-            class="pointer-events-none absolute top-28 left-8 z-20 hidden items-center gap-2.5 rounded-2xl border border-zinc-200/80 bg-white/90 px-4 py-2.5 shadow-lg backdrop-blur-xs lg:flex"
+            class="badge-float-left pointer-events-none absolute top-28 left-6 sm:left-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-zinc-200/80 bg-white/95 px-4 py-2.5 shadow-lg backdrop-blur-xs transition-all duration-700 lg:flex"
+            :class="isHeroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'"
         >
             <div
                 class="flex h-8 w-8 items-center justify-center rounded-xl bg-zinc-950 text-white"
@@ -73,7 +89,9 @@ defineProps<{
         </div>
 
         <div
-            class="pointer-events-none absolute top-36 right-8 z-20 hidden items-center gap-2.5 rounded-2xl border border-zinc-200/80 bg-white/90 px-4 py-2.5 shadow-lg backdrop-blur-xs lg:flex"
+            class="badge-float-right pointer-events-none absolute top-36 right-6 sm:right-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-zinc-200/80 bg-white/95 px-4 py-2.5 shadow-lg backdrop-blur-xs transition-all duration-700 lg:flex"
+            :class="isHeroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'"
+            style="transition-delay: 150ms"
         >
             <div
                 class="flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-900"
@@ -94,7 +112,11 @@ defineProps<{
         <ContainerScroll class="z-10 px-4 sm:px-6 lg:px-8">
             <template #title>
                 <!-- Hero Header Area -->
-                <div class="relative w-full py-4 md:py-6">
+                <div
+                    ref="heroRef"
+                    class="relative w-full py-4 md:py-6 transition-all duration-700 ease-out"
+                    :class="isHeroVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.98]'"
+                >
                     <div class="relative z-10 mx-auto max-w-4xl space-y-6 text-center">
                         <!-- Announcement Tag -->
                         <div
@@ -367,5 +389,36 @@ defineProps<{
         </div>
     </FloatingPathsBackground>
 </template>
+
+<style scoped>
+@keyframes gentleFloatLeft {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-8px) rotate(-1deg);
+    }
+}
+
+@keyframes gentleFloatRight {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+}
+
+.badge-float-left {
+    animation: gentleFloatLeft 6s ease-in-out infinite;
+    will-change: transform;
+}
+
+.badge-float-right {
+    animation: gentleFloatRight 7s ease-in-out infinite;
+    animation-delay: 1s;
+    will-change: transform;
+}
+</style>
 
 
