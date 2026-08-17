@@ -14,17 +14,12 @@ import {
     CalendarCheck,
     ChevronRight,
 } from '@lucide/vue';
-import { defineAsyncComponent } from 'vue';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import { FloatingPathsBackground } from '@/components/ui/floating-paths';
 import { Spotlight } from '@/components/ui/spotlight';
-
-const SplineScene = defineAsyncComponent(
-    () => import('@/components/ui/spline/SplineScene.vue'),
-);
 
 defineProps<{
     sections: Record<string, string>;
@@ -98,19 +93,8 @@ defineProps<{
         <!-- Container Scroll Animation Wrapper -->
         <ContainerScroll class="z-10 px-4 sm:px-6 lg:px-8">
             <template #title>
-                <!-- Hero Content Area with 3D Spline Canvas Interactive Background Behind Text -->
-                <div class="relative w-full py-6 md:py-10">
-                    <!-- Background 3D Spline Scene directly behind Hero text -->
-                    <div
-                        class="pointer-events-auto absolute inset-0 -top-8 -bottom-8 mx-auto max-w-5xl opacity-40 md:opacity-60 transition-opacity"
-                    >
-                        <SplineScene
-                            scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                            class="h-full w-full"
-                        />
-                    </div>
-
-                    <!-- Text & Buttons Content (Foreground) -->
+                <!-- Hero Header Area -->
+                <div class="relative w-full py-4 md:py-6">
                     <div class="relative z-10 mx-auto max-w-4xl space-y-6 text-center">
                         <!-- Announcement Tag -->
                         <div
