@@ -11,21 +11,20 @@ const props = withDefaults(defineProps<Props>(), {
   position: 1,
 })
 
-// Streamlined to 10 elegant paths with CSS keyframe animation for high performance (60fps, 0 JS thread blocking)
+// Static vector curves for 0% CPU consumption
 const paths = computed(() => {
   const pos = props.position
-  return Array.from({ length: 10 }, (_, i) => ({
+  return Array.from({ length: 6 }, (_, i) => ({
     id: i,
-    d: `M-${380 - i * 18 * pos} -${189 + i * 22}C-${
-      380 - i * 18 * pos
-    } -${189 + i * 22} -${312 - i * 18 * pos} ${216 - i * 22} ${
-      152 - i * 18 * pos
-    } ${343 - i * 22}C${616 - i * 18 * pos} ${470 - i * 22} ${
-      684 - i * 18 * pos
-    } ${875 - i * 22} ${684 - i * 18 * pos} ${875 - i * 22}`,
-    width: 0.8 + i * 0.1,
-    duration: 16 + (i % 5) * 3,
-    delay: i * 0.8,
+    d: `M-${380 - i * 35 * pos} -${189 + i * 35}C-${
+      380 - i * 35 * pos
+    } -${189 + i * 35} -${312 - i * 35 * pos} ${216 - i * 35} ${
+      152 - i * 35 * pos
+    } ${343 - i * 35}C${616 - i * 35 * pos} ${470 - i * 35} ${
+      684 - i * 35 * pos
+    } ${875 - i * 35} ${684 - i * 35 * pos} ${875 - i * 35}`,
+    width: 0.75 + i * 0.1,
+    opacity: 0.15 + (i % 3) * 0.05,
   }))
 })
 </script>
@@ -34,7 +33,7 @@ const paths = computed(() => {
   <div :class="cn('relative w-full overflow-hidden', props.class)">
     <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <svg
-        class="h-full w-full text-zinc-900/35"
+        class="h-full w-full text-zinc-900/40"
         viewBox="0 0 696 316"
         fill="none"
         preserveAspectRatio="xMidYMid slice"
@@ -45,38 +44,10 @@ const paths = computed(() => {
           :d="path.d"
           stroke="currentColor"
           :stroke-width="path.width"
-          stroke-dasharray="100 200"
-          class="floating-path-anim"
-          :style="{
-            animationDuration: `${path.duration}s`,
-            animationDelay: `${path.delay}s`,
-            opacity: 0.12 + (path.id % 4) * 0.04,
-          }"
+          :stroke-opacity="path.opacity"
         />
       </svg>
     </div>
     <slot />
   </div>
 </template>
-
-<style scoped>
-@keyframes floatPath {
-  0% {
-    stroke-dashoffset: 0;
-    opacity: 0.2;
-  }
-  50% {
-    stroke-dashoffset: 300;
-    opacity: 0.6;
-  }
-  100% {
-    stroke-dashoffset: 600;
-    opacity: 0.2;
-  }
-}
-
-.floating-path-anim {
-  animation: floatPath linear infinite;
-  will-change: stroke-dashoffset, opacity;
-}
-</style>

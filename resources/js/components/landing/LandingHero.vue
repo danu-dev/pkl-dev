@@ -14,33 +14,17 @@ import {
     CalendarCheck,
     ChevronRight,
 } from '@lucide/vue';
-import { useIntersectionObserver } from '@vueuse/core';
-import { ref } from 'vue';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
 import { FloatingPathsBackground } from '@/components/ui/floating-paths';
-import { Spotlight } from '@/components/ui/spotlight';
 
 defineProps<{
     sections: Record<string, string>;
     isAuthenticated: boolean;
     userDashboardUrl: string;
 }>();
-
-const heroRef = ref<HTMLElement | null>(null);
-const isHeroVisible = ref(false);
-
-useIntersectionObserver(
-    heroRef,
-    ([{ isIntersecting }]) => {
-        if (isIntersecting) {
-            isHeroVisible.value = true;
-        }
-    },
-    { threshold: 0.05 },
-);
 </script>
 
 <template>
@@ -49,18 +33,12 @@ useIntersectionObserver(
         :position="1"
         class="relative border-b border-zinc-200 pt-8 pb-16 md:pt-14 md:pb-24"
     >
-        <!-- Interactive Mouse Spotlight over the entire hero background -->
-        <Spotlight
-            className="from-zinc-300/30 via-zinc-200/15 to-transparent -top-20 left-1/4"
-            :size="500"
-        />
-
-        <!-- Floating Ambient Background Glows -->
+        <!-- Static Ambient Background Glows (No JS listeners, pure CSS) -->
         <div
-            class="pointer-events-none absolute -top-24 left-1/4 h-[420px] w-[420px] rounded-full bg-zinc-200/40 blur-3xl"
+            class="pointer-events-none absolute -top-24 left-1/4 h-[350px] w-[350px] rounded-full bg-zinc-200/40 blur-3xl"
         ></div>
         <div
-            class="pointer-events-none absolute top-1/3 -right-20 h-[450px] w-[450px] rounded-full bg-zinc-200/30 blur-3xl"
+            class="pointer-events-none absolute top-1/3 -right-20 h-[350px] w-[350px] rounded-full bg-zinc-200/30 blur-3xl"
         ></div>
 
         <!-- Subtle Pattern Grid -->
@@ -68,10 +46,9 @@ useIntersectionObserver(
             class="pointer-events-none absolute inset-0 bg-[radial-gradient(#e4e4e7_1px,transparent_1px)] [background-size:24px_24px] opacity-60"
         ></div>
 
-        <!-- Floating Badges with Smooth Gentle Floating CSS Keyframe -->
+        <!-- Floating Badges with ultra-light CSS float -->
         <div
-            class="badge-float-left pointer-events-none absolute top-28 left-6 sm:left-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-zinc-200/80 bg-white/95 px-4 py-2.5 shadow-lg backdrop-blur-xs transition-all duration-700 lg:flex"
-            :class="isHeroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'"
+            class="badge-float-left pointer-events-none absolute top-28 left-6 sm:left-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-zinc-200/80 bg-white/95 px-4 py-2.5 shadow-md backdrop-blur-xs lg:flex"
         >
             <div
                 class="flex h-8 w-8 items-center justify-center rounded-xl bg-zinc-950 text-white"
@@ -89,9 +66,7 @@ useIntersectionObserver(
         </div>
 
         <div
-            class="badge-float-right pointer-events-none absolute top-36 right-6 sm:right-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-zinc-200/80 bg-white/95 px-4 py-2.5 shadow-lg backdrop-blur-xs transition-all duration-700 lg:flex"
-            :class="isHeroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'"
-            style="transition-delay: 150ms"
+            class="badge-float-right pointer-events-none absolute top-36 right-6 sm:right-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-zinc-200/80 bg-white/95 px-4 py-2.5 shadow-md backdrop-blur-xs lg:flex"
         >
             <div
                 class="flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-900"
@@ -108,19 +83,15 @@ useIntersectionObserver(
             </div>
         </div>
 
-        <!-- Container Scroll Animation Wrapper -->
+        <!-- Container Scroll / Hero Content -->
         <ContainerScroll class="z-10 px-4 sm:px-6 lg:px-8">
             <template #title>
                 <!-- Hero Header Area -->
-                <div
-                    ref="heroRef"
-                    class="relative w-full py-4 md:py-6 transition-all duration-700 ease-out"
-                    :class="isHeroVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.98]'"
-                >
+                <div class="relative w-full py-4 md:py-6">
                     <div class="relative z-10 mx-auto max-w-4xl space-y-6 text-center">
                         <!-- Announcement Tag -->
                         <div
-                            class="inline-flex items-center gap-2 rounded-full border border-zinc-300/80 bg-white/80 px-3.5 py-1 text-[11px] font-medium text-zinc-700 shadow-2xs backdrop-blur-md"
+                            class="inline-flex items-center gap-2 rounded-full border border-zinc-300/80 bg-white/80 px-3.5 py-1 text-[11px] font-medium text-zinc-700 shadow-2xs"
                         >
                             <span
                                 class="h-1.5 w-1.5 animate-ping rounded-full bg-emerald-500"
@@ -178,7 +149,7 @@ useIntersectionObserver(
                             </Link>
                             <a href="#prosedur">
                                 <button
-                                    class="flex h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white/90 px-5 text-xs font-semibold text-zinc-950 shadow-xs backdrop-blur-md transition-all hover:border-zinc-300 hover:bg-zinc-50 active:scale-95 sm:h-12 sm:px-6 sm:text-sm"
+                                    class="flex h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white/90 px-5 text-xs font-semibold text-zinc-950 shadow-xs transition-all hover:border-zinc-300 hover:bg-zinc-50 active:scale-95 sm:h-12 sm:px-6 sm:text-sm"
                                 >
                                     <Compass class="h-4 w-4 text-zinc-950" />
                                     <span>Eksplor Alur PKL</span>
@@ -393,31 +364,31 @@ useIntersectionObserver(
 <style scoped>
 @keyframes gentleFloatLeft {
     0%, 100% {
-        transform: translateY(0px) rotate(0deg);
+        transform: translate3d(0, 0, 0);
     }
     50% {
-        transform: translateY(-8px) rotate(-1deg);
+        transform: translate3d(0, -6px, 0);
     }
 }
 
 @keyframes gentleFloatRight {
     0%, 100% {
-        transform: translateY(0px) rotate(0deg);
+        transform: translate3d(0, 0, 0);
     }
     50% {
-        transform: translateY(-10px) rotate(1deg);
+        transform: translate3d(0, -8px, 0);
     }
 }
 
 .badge-float-left {
     animation: gentleFloatLeft 6s ease-in-out infinite;
-    will-change: transform;
+    transform: translateZ(0);
 }
 
 .badge-float-right {
     animation: gentleFloatRight 7s ease-in-out infinite;
-    animation-delay: 1s;
-    will-change: transform;
+    animation-delay: 1.5s;
+    transform: translateZ(0);
 }
 </style>
 
