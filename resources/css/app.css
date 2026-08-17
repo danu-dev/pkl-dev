@@ -9,9 +9,8 @@
 
 @theme inline {
     --font-sans:
-        'Poppins', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+        'Poppins', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -91,33 +90,33 @@
 
 :root {
     --background: hsl(0 0% 100%);
-    --foreground: hsl(222 47% 11%);
+    --foreground: hsl(240 10% 3.9%);
     --card: hsl(0 0% 100%);
-    --card-foreground: hsl(222 47% 11%);
+    --card-foreground: hsl(240 10% 3.9%);
     --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(222 47% 11%);
-    --primary: rgb(93 135 255);
-    --primary-foreground: hsl(0 0% 100%);
-    --secondary: hsl(214 100% 97%);
-    --secondary-foreground: rgb(93 135 255);
-    --muted: hsl(210 40% 96.1%);
-    --muted-foreground: hsl(215.4 16.3% 46.9%);
-    --accent: hsl(214 100% 96%);
-    --accent-foreground: rgb(93 135 255);
+    --popover-foreground: hsl(240 10% 3.9%);
+    --primary: hsl(240 5.9% 10%);
+    --primary-foreground: hsl(0 0% 98%);
+    --secondary: hsl(240 4.8% 95.9%);
+    --secondary-foreground: hsl(240 5.9% 10%);
+    --muted: hsl(240 4.8% 95.9%);
+    --muted-foreground: hsl(240 3.8% 46.1%);
+    --accent: hsl(240 4.8% 95.9%);
+    --accent-foreground: hsl(240 5.9% 10%);
     --destructive: hsl(0 84.2% 60.2%);
     --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(214.3 31.8% 91.4%);
-    --input: hsl(214.3 31.8% 91.4%);
-    --ring: rgb(93 135 255);
+    --border: hsl(240 5.9% 90%);
+    --input: hsl(240 5.9% 90%);
+    --ring: hsl(240 5.9% 10%);
     --radius: 0.5rem;
     --sidebar-background: hsl(0 0% 100%);
-    --sidebar-foreground: hsl(222 47% 11%);
-    --sidebar-primary: rgb(93 135 255);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(214 100% 97%);
-    --sidebar-accent-foreground: rgb(93 135 255);
-    --sidebar-border: hsl(214.3 31.8% 91.4%);
-    --sidebar-ring: rgb(93 135 255);
+    --sidebar-foreground: hsl(240 10% 3.9%);
+    --sidebar-primary: hsl(240 5.9% 10%);
+    --sidebar-primary-foreground: hsl(0 0% 98%);
+    --sidebar-accent: hsl(240 4.8% 95.9%);
+    --sidebar-accent-foreground: hsl(240 5.9% 10%);
+    --sidebar-border: hsl(240 5.9% 90%);
+    --sidebar-ring: hsl(240 5.9% 10%);
     --sidebar: hsl(0 0% 100%);
 }
 

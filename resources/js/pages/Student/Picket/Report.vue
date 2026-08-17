@@ -17,6 +17,7 @@ const form = useForm({
 
 const handleFileUpload = (e: Event) => {
     const target = e.target as HTMLInputElement;
+
     if (target.files && target.files[0]) {
         form.proof_file = target.files[0];
     }
@@ -35,33 +36,45 @@ const submitReport = () => {
 <template>
     <div class="space-y-6">
         <!-- Header section -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div
+            class="flex flex-col justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs sm:flex-row sm:items-center"
+        >
             <div>
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                    <Send class="w-5 h-5 text-[rgb(93,135,255)]" />
+                <h1
+                    class="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-950"
+                >
+                    <Send class="h-5 w-5 text-zinc-900" />
                     Laporan Piket Kebersihan
                 </h1>
-                <p class="text-xs text-slate-500 mt-1">Kirimkan catatan & bukti foto kegiatan piket harian Anda.</p>
+                <p class="mt-1 text-xs text-zinc-500">
+                    Kirimkan catatan & bukti foto kegiatan piket harian Anda.
+                </p>
             </div>
 
-            <button 
+            <button
                 @click="showReportModal = true"
-                class="px-4 py-2.5 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 transition-all"
+                class="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-zinc-950 px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition-all hover:bg-zinc-800"
             >
-                <Send class="w-4 h-4" />
+                <Send class="h-4 w-4" />
                 <span>Laporkan Piket Hari Ini</span>
             </button>
         </div>
 
         <!-- Tabel Riwayat Laporan Piket -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <div class="p-4 border-b border-slate-100">
-                <h3 class="font-bold text-slate-900 text-sm">Riwayat Laporan Piket Anda</h3>
+        <div
+            class="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
+        >
+            <div class="border-b border-zinc-100 p-4">
+                <h3 class="text-sm font-bold text-zinc-950">
+                    Riwayat Laporan Piket Anda
+                </h3>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs">
-                    <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
+                    <thead
+                        class="border-b border-zinc-200 bg-zinc-50 font-semibold text-zinc-600 uppercase"
+                    >
                         <tr>
                             <th class="px-5 py-3">Tanggal</th>
                             <th class="px-5 py-3">Catatan Laporan</th>
@@ -69,24 +82,59 @@ const submitReport = () => {
                             <th class="px-5 py-3">Status</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        <tr v-for="report in myReports.data" :key="report.id" class="hover:bg-slate-50/50">
-                            <td class="px-5 py-4 font-bold text-slate-900 whitespace-nowrap">{{ report.date }}</td>
-                            <td class="px-5 py-4 text-slate-600">{{ report.notes || '-' }}</td>
+                    <tbody class="divide-y divide-zinc-100">
+                        <tr
+                            v-for="report in myReports.data"
+                            :key="report.id"
+                            class="hover:bg-zinc-50/50"
+                        >
+                            <td
+                                class="px-5 py-4 font-bold whitespace-nowrap text-zinc-900"
+                            >
+                                {{ report.date }}
+                            </td>
+                            <td class="px-5 py-4 text-zinc-600">
+                                {{ report.notes || '-' }}
+                            </td>
                             <td class="px-5 py-4 whitespace-nowrap">
-                                <a :href="`/storage/${report.proof_file}`" target="_blank" class="inline-block group">
-                                    <img :src="`/storage/${report.proof_file}`" alt="Bukti Piket" class="w-12 h-12 object-cover rounded-xl border border-slate-200 shadow-xs group-hover:scale-105 transition-transform" />
+                                <a
+                                    :href="`/storage/${report.proof_file}`"
+                                    target="_blank"
+                                    class="group inline-block"
+                                >
+                                    <img
+                                        :src="`/storage/${report.proof_file}`"
+                                        alt="Bukti Piket"
+                                        class="h-12 w-12 rounded-xl border border-zinc-200 object-cover shadow-2xs transition-transform group-hover:scale-105"
+                                    />
                                 </a>
                             </td>
                             <td class="px-5 py-4 whitespace-nowrap">
-                                <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold capitalize"
-                                      :class="report.status === 'verified' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'">
-                                    {{ report.status === 'verified' ? 'Terverifikasi' : 'Menunggu Review' }}
+                                <span
+                                    class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold capitalize"
+                                    :class="
+                                        report.status === 'verified'
+                                            ? 'border border-emerald-200 bg-emerald-50 text-emerald-700'
+                                            : 'border border-amber-200 bg-amber-50 text-amber-700'
+                                    "
+                                >
+                                    {{
+                                        report.status === 'verified'
+                                            ? 'Terverifikasi'
+                                            : 'Menunggu Review'
+                                    }}
                                 </span>
                             </td>
                         </tr>
-                        <tr v-if="!myReports.data || myReports.data.length === 0">
-                            <td colspan="4" class="px-5 py-8 text-center text-xs text-slate-400">
+                        <tr
+                            v-if="
+                                !myReports.data || myReports.data.length === 0
+                            "
+                        >
+                            <td
+                                colspan="4"
+                                class="px-5 py-8 text-center text-zinc-400"
+                            >
                                 Belum ada laporan piket yang dikirimkan.
                             </td>
                         </tr>
@@ -96,27 +144,68 @@ const submitReport = () => {
         </div>
 
         <!-- Modal Form Laporkan Piket -->
-        <div v-if="showReportModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-            <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-slate-100">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-slate-900 text-base">Laporkan Piket Kebersihan</h3>
-                    <button @click="showReportModal = false" class="text-slate-400 hover:text-slate-600 text-sm">✕</button>
+        <div
+            v-if="showReportModal"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/40 p-4 backdrop-blur-sm"
+        >
+            <div
+                class="w-full max-w-md space-y-4 rounded-2xl border border-zinc-100 bg-white p-6 shadow-2xl"
+            >
+                <div
+                    class="flex items-center justify-between border-b border-zinc-100 pb-3"
+                >
+                    <h3 class="text-base font-bold text-zinc-900">
+                        Laporkan Piket Kebersihan
+                    </h3>
+                    <button
+                        @click="showReportModal = false"
+                        class="text-sm text-zinc-400 hover:text-zinc-600"
+                    >
+                        ✕
+                    </button>
                 </div>
 
                 <form @submit.prevent="submitReport" class="space-y-4">
                     <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Catatan Laporan Piket</label>
-                        <textarea v-model="form.notes" rows="3" placeholder="Sapu dan pel area ruangan..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)]"></textarea>
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Catatan Laporan Piket</label
+                        >
+                        <textarea
+                            v-model="form.notes"
+                            rows="3"
+                            placeholder="Sapu dan pel area ruangan..."
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm focus:border-zinc-950 focus:outline-none"
+                        ></textarea>
                     </div>
 
                     <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Bukti Foto Piket (Format Foto JPG/PNG) *</label>
-                        <input type="file" accept="image/*" required @change="handleFileUpload" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-[rgb(93,135,255)]" />
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Bukti Foto Piket (Format Foto JPG/PNG) *</label
+                        >
+                        <input
+                            type="file"
+                            accept="image/*"
+                            required
+                            @change="handleFileUpload"
+                            class="w-full text-xs text-zinc-500 file:mr-4 file:rounded-xl file:border-0 file:bg-zinc-100 file:px-4 file:py-2 file:text-xs file:font-semibold file:text-zinc-950 hover:file:bg-zinc-200"
+                        />
                     </div>
 
-                    <div class="pt-2 flex justify-end gap-2">
-                        <button type="button" @click="showReportModal = false" class="px-4 py-2 bg-slate-100 text-slate-600 font-semibold rounded-xl text-xs">Batal</button>
-                        <button type="submit" :disabled="form.processing" class="px-4 py-2 bg-[rgb(93,135,255)] text-white font-semibold rounded-xl text-xs shadow-md shadow-blue-500/20">Kirim Laporan</button>
+                    <div class="flex justify-end gap-2 pt-2">
+                        <button
+                            type="button"
+                            @click="showReportModal = false"
+                            class="rounded-xl bg-zinc-100 px-4 py-2 text-xs font-semibold text-zinc-600"
+                        >
+                            Batal
+                        </button>
+                        <button
+                            type="submit"
+                            :disabled="form.processing"
+                            class="rounded-xl bg-zinc-950 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-zinc-800"
+                        >
+                            Kirim Laporan
+                        </button>
                     </div>
                 </form>
             </div>

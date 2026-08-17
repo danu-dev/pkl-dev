@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useForm, Link } from '@inertiajs/vue3';
-import { 
-    User, 
-    Lock, 
-    ArrowRight, 
-    Eye, 
-    EyeOff, 
-    ShieldCheck, 
-    CheckCircle2, 
-    ArrowLeft
+import {
+    User,
+    Lock,
+    ArrowRight,
+    Eye,
+    EyeOff,
+    ShieldCheck,
+    CheckCircle2,
+    ArrowLeft,
 } from '@lucide/vue';
+import { ref } from 'vue';
+import { Button } from '@/components/ui/button';
 
 const form = useForm({
     login: '',
@@ -28,103 +29,137 @@ const submit = () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 sm:p-6 font-sans text-slate-800 selection:bg-[rgb(93,135,255)] selection:text-white">
-        <!-- Minimalist Back to Home -->
-        <div class="w-full max-w-md mb-4 flex items-center justify-between">
-            <Link href="/" class="flex items-center gap-2.5 group">
-                <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform shrink-0">
-                    <img src="/images/app-icon.png" alt="SIPKL" class="w-full h-full object-contain" />
-                </div>
-                <span class="font-black text-slate-900 text-base tracking-tight">SIPKL System</span>
+    <div
+        class="flex min-h-screen flex-col items-center justify-center bg-white p-4 font-sans text-zinc-900 selection:bg-zinc-950 selection:text-white sm:p-6"
+    >
+        <!-- Minimalist Back to Home & Logo -->
+        <div class="mb-6 flex w-full max-w-sm items-center justify-between">
+            <Link href="/" class="group flex items-center">
+                <span
+                    class="text-xl font-extrabold tracking-tight text-zinc-950"
+                >
+                    SIPKL<span class="text-zinc-950">.</span>
+                </span>
             </Link>
 
-            <Link href="/" class="text-xs font-semibold text-slate-500 hover:text-[rgb(93,135,255)] flex items-center gap-1 transition-colors">
-                <ArrowLeft class="w-3.5 h-3.5" />
+            <Link
+                href="/"
+                class="flex items-center gap-1 text-xs font-medium text-zinc-500 transition-colors hover:text-zinc-950"
+            >
+                <ArrowLeft class="h-3.5 w-3.5" />
                 <span>Beranda</span>
             </Link>
         </div>
 
-        <!-- Minimalist Auth Card -->
-        <div class="w-full max-w-md bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 p-7 sm:p-9 space-y-6">
+        <!-- Minimalist Auth Card (Monochrome Modern B&W) -->
+        <div
+            class="w-full max-w-sm space-y-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-xs sm:p-8"
+        >
             <!-- Header Text -->
             <div class="space-y-1 text-center">
-                <h1 class="text-2xl font-black text-slate-900 tracking-tight">Masuk ke Portal</h1>
-                <p class="text-xs text-slate-500">Silakan masukkan akun Anda untuk melanjutkan</p>
+                <h1 class="text-xl font-bold tracking-tight text-zinc-950">
+                    Masuk ke Akun
+                </h1>
+                <p class="text-xs text-zinc-500">
+                    Masukkan kredensial Anda untuk melanjutkan
+                </p>
             </div>
 
             <!-- Alerts -->
-            <div v-if="$page.props.flash?.success" class="p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-medium flex items-center gap-2.5">
-                <CheckCircle2 class="w-4 h-4 text-emerald-600 shrink-0" />
+            <div
+                v-if="$page.props.flash?.success"
+                class="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-xs font-medium text-zinc-900"
+            >
+                <CheckCircle2 class="h-4 w-4 shrink-0 text-emerald-600" />
                 <span>{{ $page.props.flash.success }}</span>
             </div>
 
-            <div v-if="form.errors.login" class="p-3.5 bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl text-xs font-medium flex items-center gap-2.5">
-                <ShieldCheck class="w-4 h-4 text-rose-600 shrink-0" />
+            <div
+                v-if="form.errors.login"
+                class="flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs font-medium text-rose-800"
+            >
+                <ShieldCheck class="h-4 w-4 shrink-0 text-rose-600" />
                 <span>{{ form.errors.login }}</span>
             </div>
 
             <!-- Form -->
             <form @submit.prevent="submit" class="space-y-4">
                 <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-700">Email atau Username</label>
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Email atau Username</label
+                    >
                     <div class="relative">
-                        <User class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                        <input 
-                            v-model="form.login" 
-                            type="text" 
-                            required 
+                        <User
+                            class="absolute top-3.5 left-3.5 h-4 w-4 text-zinc-400"
+                        />
+                        <input
+                            v-model="form.login"
+                            type="text"
+                            required
                             placeholder="nama@email.com atau username"
-                            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white focus:ring-2 focus:ring-[rgb(93,135,255)]/20 transition-all"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 pr-4 pl-10 text-xs text-zinc-900 placeholder-zinc-400 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
                         />
                     </div>
                 </div>
 
                 <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-700">Password</label>
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Password</label
+                    >
                     <div class="relative">
-                        <Lock class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                        <input 
-                            v-model="form.password" 
-                            :type="showPassword ? 'text' : 'password'" 
-                            required 
-                            placeholder="••••••••"
-                            class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white focus:ring-2 focus:ring-[rgb(93,135,255)]/20 transition-all"
+                        <Lock
+                            class="absolute top-3.5 left-3.5 h-4 w-4 text-zinc-400"
                         />
-                        <button 
-                            type="button" 
+                        <input
+                            v-model="form.password"
+                            :type="showPassword ? 'text' : 'password'"
+                            required
+                            placeholder="••••••••"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 pr-10 pl-10 text-xs text-zinc-900 placeholder-zinc-400 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                        />
+                        <button
+                            type="button"
                             @click="showPassword = !showPassword"
-                            class="absolute right-3.5 top-3 text-slate-400 hover:text-slate-600"
+                            class="absolute top-3 right-3.5 text-zinc-400 hover:text-zinc-700"
                         >
-                            <Eye v-if="!showPassword" class="w-4 h-4" />
-                            <EyeOff v-else class="w-4 h-4" />
+                            <Eye v-if="!showPassword" class="h-4 w-4" />
+                            <EyeOff v-else class="h-4 w-4" />
                         </button>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between text-xs pt-1">
-                    <label class="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-800 select-none">
-                        <input 
-                            v-model="form.remember" 
-                            type="checkbox" 
-                            class="w-4 h-4 rounded border-slate-300 text-[rgb(93,135,255)] focus:ring-[rgb(93,135,255)]" 
+                <div class="flex items-center justify-between pt-0.5 text-xs">
+                    <label
+                        class="flex cursor-pointer items-center gap-2 text-zinc-600 select-none hover:text-zinc-900"
+                    >
+                        <input
+                            v-model="form.remember"
+                            type="checkbox"
+                            class="h-3.5 w-3.5 rounded border-zinc-300 text-zinc-950 focus:ring-zinc-950"
                         />
                         <span>Ingat saya</span>
                     </label>
                 </div>
 
-                <button 
-                    type="submit" 
+                <Button
+                    type="submit"
                     :disabled="form.processing"
-                    class="w-full py-3 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 text-xs transition-all disabled:opacity-50 active:scale-[0.99] cursor-pointer"
+                    class="flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-zinc-950 text-xs font-semibold text-white shadow-xs transition-all hover:bg-zinc-800 active:scale-[0.98] disabled:opacity-50"
                 >
                     <span>Masuk</span>
-                    <ArrowRight class="w-4 h-4" />
-                </button>
+                    <ArrowRight class="h-3.5 w-3.5" />
+                </Button>
             </form>
 
-            <div class="pt-4 border-t border-slate-100 text-center text-xs text-slate-500">
+            <div
+                class="border-t border-zinc-100 pt-4 text-center text-xs text-zinc-500"
+            >
                 <span>Belum punya akun? </span>
-                <Link href="/register" class="font-bold text-[rgb(93,135,255)] hover:underline">Daftar Siswa Baru</Link>
+                <Link
+                    href="/register"
+                    class="font-bold text-zinc-950 hover:underline"
+                    >Daftar Siswa Baru</Link
+                >
             </div>
         </div>
     </div>

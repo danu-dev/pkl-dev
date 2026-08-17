@@ -33,104 +33,180 @@ const submitUpdate = () => {
 
 <template>
     <div class="space-y-6">
-            <!-- Header section -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                    <FileText class="w-5 h-5 text-[rgb(93,135,255)]" />
-                    Kelola Pengajuan Izin / Sakit Siswa
-                </h1>
-                <p class="text-xs text-slate-500 mt-1">Tinjau permohonan surat izin dan surat dokter yang dikirimkan oleh siswa PKL.</p>
-            </div>
-
-            <!-- Table -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
-                            <tr>
-                                <th class="px-5 py-3">Nama Siswa</th>
-                                <th class="px-5 py-3">Tipe</th>
-                                <th class="px-5 py-3">Rentang Tanggal</th>
-                                <th class="px-5 py-3">Alasan</th>
-                                <th class="px-5 py-3">Lampiran Surat</th>
-                                <th class="px-5 py-3">Status</th>
-                                <th class="px-5 py-3 text-right">Aksi Review</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <tr v-for="leave in leaveRequests.data" :key="leave.id" class="hover:bg-slate-50/50">
-                                <td class="px-5 py-4 font-bold text-slate-900">
-                                    <p>{{ leave.user?.name }}</p>
-                                    <p class="text-[11px] font-normal text-slate-400">{{ leave.user?.profile?.school_name }}</p>
-                                </td>
-                                <td class="px-5 py-4 whitespace-nowrap">
-                                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase"
-                                          :class="leave.type === 'sakit' ? 'bg-rose-50 text-rose-700' : 'bg-amber-50 text-amber-700'">
-                                        {{ leave.type }}
-                                    </span>
-                                </td>
-                                <td class="px-5 py-4 text-slate-700 whitespace-nowrap font-medium">
-                                    {{ leave.start_date }} s/d {{ leave.end_date }}
-                                </td>
-                                <td class="px-5 py-4 text-slate-600 max-w-xs">
-                                    {{ leave.reason }}
-                                </td>
-                                <td class="px-5 py-4 whitespace-nowrap">
-                                    <a v-if="leave.attachment" :href="`/storage/${leave.attachment}`" target="_blank" class="text-[rgb(93,135,255)] font-semibold hover:underline inline-flex items-center gap-1">
-                                        <Download class="w-3.5 h-3.5" />
-                                        <span>Lihat Lampiran</span>
-                                    </a>
-                                    <span v-else class="text-slate-400">-</span>
-                                </td>
-                                <td class="px-5 py-4 whitespace-nowrap">
-                                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold capitalize"
-                                          :class="{
-                                              'bg-emerald-50 text-emerald-700': leave.status === 'approved',
-                                              'bg-amber-50 text-amber-700': leave.status === 'pending',
-                                              'bg-rose-50 text-rose-700': leave.status === 'rejected',
-                                          }">
-                                        {{ leave.status }}
-                                    </span>
-                                </td>
-                                <td class="px-5 py-4 text-right whitespace-nowrap">
-                                    <button @click="openModal(leave)" class="px-3 py-1.5 bg-blue-50 text-[rgb(93,135,255)] font-semibold rounded-lg text-xs hover:bg-blue-100">
-                                        Review
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <!-- Header section -->
+        <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs">
+            <h1
+                class="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-950"
+            >
+                <FileText class="h-5 w-5 text-zinc-900" />
+                Kelola Pengajuan Izin / Sakit Siswa
+            </h1>
+            <p class="mt-1 text-xs text-zinc-500">
+                Tinjau permohonan surat izin dan surat dokter yang dikirimkan
+                oleh siswa PKL.
+            </p>
         </div>
 
-        <!-- Modal Review -->
-        <div v-if="showModal && selectedLeave" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-            <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-slate-100">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-slate-900 text-base">Review Pengajuan Izin / Sakit</h3>
-                    <button @click="showModal = false" class="text-slate-400 hover:text-slate-600 text-sm">✕</button>
+        <!-- Table -->
+        <div
+            class="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
+        >
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead
+                        class="border-b border-zinc-200 bg-zinc-50 font-semibold text-zinc-600 uppercase"
+                    >
+                        <tr>
+                            <th class="px-5 py-3">Nama Siswa</th>
+                            <th class="px-5 py-3">Tipe</th>
+                            <th class="px-5 py-3">Rentang Tanggal</th>
+                            <th class="px-5 py-3">Alasan</th>
+                            <th class="px-5 py-3">Lampiran Surat</th>
+                            <th class="px-5 py-3">Status</th>
+                            <th class="px-5 py-3 text-right">Aksi Review</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100">
+                        <tr
+                            v-for="leave in leaveRequests.data"
+                            :key="leave.id"
+                            class="hover:bg-zinc-50/50"
+                        >
+                            <td class="px-5 py-4 font-bold text-zinc-900">
+                                <p>{{ leave.user?.name }}</p>
+                                <p
+                                    class="text-[11px] font-normal text-zinc-400"
+                                >
+                                    {{ leave.user?.profile?.school_name }}
+                                </p>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap">
+                                <span
+                                    class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase"
+                                    :class="
+                                        leave.type === 'sakit'
+                                            ? 'bg-rose-50 text-rose-700'
+                                            : 'bg-amber-50 text-amber-700'
+                                    "
+                                >
+                                    {{ leave.type }}
+                                </span>
+                            </td>
+                            <td
+                                class="px-5 py-4 font-medium whitespace-nowrap text-zinc-700"
+                            >
+                                {{ leave.start_date }} s/d {{ leave.end_date }}
+                            </td>
+                            <td class="max-w-xs px-5 py-4 text-zinc-600">
+                                {{ leave.reason }}
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap">
+                                <a
+                                    v-if="leave.attachment"
+                                    :href="`/storage/${leave.attachment}`"
+                                    target="_blank"
+                                    class="inline-flex items-center gap-1 font-semibold text-zinc-950 hover:underline"
+                                >
+                                    <Download class="h-3.5 w-3.5" />
+                                    <span>Lihat Lampiran</span>
+                                </a>
+                                <span v-else class="text-zinc-400">-</span>
+                            </td>
+                            <td class="px-5 py-4 whitespace-nowrap">
+                                <span
+                                    class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold capitalize"
+                                    :class="{
+                                        'bg-emerald-50 text-emerald-700':
+                                            leave.status === 'approved',
+                                        'bg-amber-50 text-amber-700':
+                                            leave.status === 'pending',
+                                        'bg-rose-50 text-rose-700':
+                                            leave.status === 'rejected',
+                                    }"
+                                >
+                                    {{ leave.status }}
+                                </span>
+                            </td>
+                            <td class="px-5 py-4 text-right whitespace-nowrap">
+                                <button
+                                    @click="openModal(leave)"
+                                    class="cursor-pointer rounded-lg bg-zinc-100 px-3 py-1.5 text-xs font-semibold text-zinc-950 hover:bg-zinc-200"
+                                >
+                                    Review
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Review -->
+    <div
+        v-if="showModal && selectedLeave"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/40 p-4 backdrop-blur-sm"
+    >
+        <div
+            class="w-full max-w-md space-y-4 rounded-2xl border border-zinc-100 bg-white p-6 shadow-2xl"
+        >
+            <div
+                class="flex items-center justify-between border-b border-zinc-100 pb-3"
+            >
+                <h3 class="text-base font-bold text-zinc-900">
+                    Review Pengajuan Izin / Sakit
+                </h3>
+                <button
+                    @click="showModal = false"
+                    class="text-sm text-zinc-400 hover:text-zinc-600"
+                >
+                    ✕
+                </button>
+            </div>
+
+            <form @submit.prevent="submitUpdate" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Pilih Keputusan Admin</label
+                    >
+                    <select
+                        v-model="form.status"
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm focus:border-zinc-950 focus:outline-none"
+                    >
+                        <option value="approved">Approve / Setujui</option>
+                        <option value="rejected">Reject / Tolak</option>
+                    </select>
                 </div>
 
-                <form @submit.prevent="submitUpdate" class="space-y-4">
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Pilih Keputusan Admin</label>
-                        <select v-model="form.status" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
-                            <option value="approved">Approve / Setujui</option>
-                            <option value="rejected">Reject / Tolak</option>
-                        </select>
-                    </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Catatan Admin</label
+                    >
+                    <textarea
+                        v-model="form.admin_note"
+                        rows="3"
+                        placeholder="Catatan respon..."
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm focus:border-zinc-950 focus:outline-none"
+                    ></textarea>
+                </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Catatan Admin</label>
-                        <textarea v-model="form.admin_note" rows="3" placeholder="Catatan respon..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm"></textarea>
-                    </div>
-
-                    <div class="pt-2 flex justify-end gap-2">
-                        <button type="button" @click="showModal = false" class="px-4 py-2 bg-slate-100 text-slate-600 font-semibold rounded-xl text-xs">Batal</button>
-                        <button type="submit" :disabled="form.processing" class="px-4 py-2 bg-[rgb(93,135,255)] text-white font-semibold rounded-xl text-xs">Simpan Keputusan</button>
-                    </div>
-                </form>
-            </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        @click="showModal = false"
+                        class="cursor-pointer rounded-xl bg-zinc-100 px-4 py-2 text-xs font-semibold text-zinc-600"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        type="submit"
+                        :disabled="form.processing"
+                        class="cursor-pointer rounded-xl bg-zinc-950 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800"
+                    >
+                        Simpan Keputusan
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>

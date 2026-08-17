@@ -23,6 +23,7 @@ const form = useForm({
 const openGradeModal = (student: any) => {
     selectedStudent.value = student;
     form.user_id = student.id;
+
     if (student.grade) {
         form.discipline_score = student.grade.discipline_score;
         form.technical_score = student.grade.technical_score;
@@ -31,6 +32,7 @@ const openGradeModal = (student: any) => {
         form.attitude_score = student.grade.attitude_score;
         form.notes = student.grade.notes || '';
     }
+
     showModal.value = true;
 };
 
@@ -45,96 +47,201 @@ const submitGrade = () => {
 
 <template>
     <div class="space-y-6">
-            <!-- Header section -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                    <Award class="w-5 h-5 text-[rgb(93,135,255)]" />
-                    Penilaian & Sertifikat Akhir PKL
-                </h1>
-                <p class="text-xs text-slate-500 mt-1">Input nilai parameter performa siswa untuk kalkulasi otomatis nilai akhir dan predikat sertifikat.</p>
-            </div>
-
-            <!-- Student Grades Table -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
-                            <tr>
-                                <th class="px-5 py-3">Nama Siswa</th>
-                                <th class="px-5 py-3">Asal Sekolah</th>
-                                <th class="px-5 py-3">Nilai Akhir</th>
-                                <th class="px-5 py-3">Predikat</th>
-                                <th class="px-5 py-3 text-right">Aksi Penilaian</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <tr v-for="student in students" :key="student.id" class="hover:bg-slate-50/50">
-                                <td class="px-5 py-4 font-bold text-slate-900">{{ student.name }}</td>
-                                <td class="px-5 py-4 text-slate-600">{{ student.profile?.school_name }}</td>
-                                <td class="px-5 py-4 font-bold text-slate-900 text-sm">
-                                    {{ student.grade?.final_score || '-' }}
-                                </td>
-                                <td class="px-5 py-4">
-                                    <span v-if="student.grade" class="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-[rgb(93,135,255)]">
-                                        Nilai {{ student.grade.grade_letter }}
-                                    </span>
-                                    <span v-else class="text-slate-400">Belum Dinilai</span>
-                                </td>
-                                <td class="px-5 py-4 text-right">
-                                    <button @click="openGradeModal(student)" class="px-3 py-1.5 bg-blue-50 text-[rgb(93,135,255)] font-semibold rounded-lg text-xs hover:bg-blue-100">
-                                        Input / Edit Nilai
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <!-- Header section -->
+        <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs">
+            <h1
+                class="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-950"
+            >
+                <Award class="h-5 w-5 text-zinc-900" />
+                Penilaian & Sertifikat Akhir PKL
+            </h1>
+            <p class="mt-1 text-xs text-zinc-500">
+                Input nilai parameter performa siswa untuk kalkulasi otomatis
+                nilai akhir dan predikat sertifikat.
+            </p>
         </div>
 
-        <!-- Grade Input Modal -->
-        <div v-if="showModal && selectedStudent" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-            <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-slate-100">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-slate-900 text-base">Input Nilai: {{ selectedStudent.name }}</h3>
-                    <button @click="showModal = false" class="text-slate-400 hover:text-slate-600 text-sm">✕</button>
+        <!-- Student Grades Table -->
+        <div
+            class="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
+        >
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead
+                        class="border-b border-zinc-200 bg-zinc-50 font-semibold text-zinc-600 uppercase"
+                    >
+                        <tr>
+                            <th class="px-5 py-3">Nama Siswa</th>
+                            <th class="px-5 py-3">Asal Sekolah</th>
+                            <th class="px-5 py-3">Nilai Akhir</th>
+                            <th class="px-5 py-3">Predikat</th>
+                            <th class="px-5 py-3 text-right">Aksi Penilaian</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100">
+                        <tr
+                            v-for="student in students"
+                            :key="student.id"
+                            class="hover:bg-zinc-50/50"
+                        >
+                            <td class="px-5 py-4 font-bold text-zinc-900">
+                                {{ student.name }}
+                            </td>
+                            <td class="px-5 py-4 text-zinc-600">
+                                {{ student.profile?.school_name }}
+                            </td>
+                            <td
+                                class="px-5 py-4 text-sm font-bold text-zinc-900"
+                            >
+                                {{ student.grade?.final_score || '-' }}
+                            </td>
+                            <td class="px-5 py-4">
+                                <span
+                                    v-if="student.grade"
+                                    class="rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-1 text-xs font-bold text-zinc-950"
+                                >
+                                    Nilai {{ student.grade.grade_letter }}
+                                </span>
+                                <span v-else class="text-zinc-400"
+                                    >Belum Dinilai</span
+                                >
+                            </td>
+                            <td class="px-5 py-4 text-right">
+                                <button
+                                    @click="openGradeModal(student)"
+                                    class="cursor-pointer rounded-lg bg-zinc-100 px-3 py-1.5 text-xs font-semibold text-zinc-950 hover:bg-zinc-200"
+                                >
+                                    Input / Edit Nilai
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Input Modal -->
+    <div
+        v-if="showModal && selectedStudent"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/40 p-4 backdrop-blur-sm"
+    >
+        <div
+            class="w-full max-w-lg space-y-4 rounded-2xl border border-zinc-100 bg-white p-6 shadow-2xl"
+        >
+            <div
+                class="flex items-center justify-between border-b border-zinc-100 pb-3"
+            >
+                <h3 class="text-base font-bold text-zinc-900">
+                    Input Nilai: {{ selectedStudent.name }}
+                </h3>
+                <button
+                    @click="showModal = false"
+                    class="text-sm text-zinc-400 hover:text-zinc-600"
+                >
+                    ✕
+                </button>
+            </div>
+
+            <form @submit.prevent="submitGrade" class="space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Kedisiplinan (20%) *</label
+                        >
+                        <input
+                            v-model.number="form.discipline_score"
+                            type="number"
+                            min="0"
+                            max="100"
+                            required
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Keahlian Teknis (30%) *</label
+                        >
+                        <input
+                            v-model.number="form.technical_score"
+                            type="number"
+                            min="0"
+                            max="100"
+                            required
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Jurnal Kegiatan (20%) *</label
+                        >
+                        <input
+                            v-model.number="form.journal_score"
+                            type="number"
+                            min="0"
+                            max="100"
+                            required
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Kehadiran (15%) *</label
+                        >
+                        <input
+                            v-model.number="form.attendance_score"
+                            type="number"
+                            min="0"
+                            max="100"
+                            required
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
                 </div>
 
-                <form @submit.prevent="submitGrade" class="space-y-4">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-700">Kedisiplinan (20%) *</label>
-                            <input v-model.number="form.discipline_score" type="number" min="0" max="100" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-700">Keahlian Teknis (30%) *</label>
-                            <input v-model.number="form.technical_score" type="number" min="0" max="100" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-700">Jurnal Kegiatan (20%) *</label>
-                            <input v-model.number="form.journal_score" type="number" min="0" max="100" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-semibold text-slate-700">Kehadiran (15%) *</label>
-                            <input v-model.number="form.attendance_score" type="number" min="0" max="100" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
-                        </div>
-                    </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Sikap & Etika (15%) *</label
+                    >
+                    <input
+                        v-model.number="form.attitude_score"
+                        type="number"
+                        min="0"
+                        max="100"
+                        required
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                    />
+                </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Sikap & Etika (15%) *</label>
-                        <input v-model.number="form.attitude_score" type="number" min="0" max="100" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs" />
-                    </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Catatan Evaluasi Admin</label
+                    >
+                    <textarea
+                        v-model="form.notes"
+                        rows="2"
+                        placeholder="Catatan masukan..."
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                    ></textarea>
+                </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Catatan Evaluasi Admin</label>
-                        <textarea v-model="form.notes" rows="2" placeholder="Catatan masukan..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs"></textarea>
-                    </div>
-
-                    <div class="pt-2 flex justify-end gap-2">
-                        <button type="button" @click="showModal = false" class="px-4 py-2 bg-slate-100 text-slate-600 font-semibold rounded-xl text-xs">Batal</button>
-                        <button type="submit" :disabled="form.processing" class="px-4 py-2 bg-[rgb(93,135,255)] text-white font-semibold rounded-xl text-xs">Simpan Penilaian</button>
-                    </div>
-                </form>
-            </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        @click="showModal = false"
+                        class="cursor-pointer rounded-xl bg-zinc-100 px-4 py-2 text-xs font-semibold text-zinc-600"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        type="submit"
+                        :disabled="form.processing"
+                        class="cursor-pointer rounded-xl bg-zinc-950 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800"
+                    >
+                        Simpan Penilaian
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>

@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { 
-    Globe, 
-    Save, 
-    Plus, 
-    Trash2, 
-    Edit3, 
-    CheckCircle2, 
-    Sparkles, 
-    Users, 
-    Image, 
-    ListOrdered, 
-    PhoneCall, 
+import {
+    Globe,
+    Save,
+    Plus,
+    Trash2,
+    Edit3,
+    CheckCircle2,
+    Sparkles,
+    Users,
+    Image,
+    ListOrdered,
+    PhoneCall,
     HelpCircle,
     X,
-    Upload
+    Upload,
 } from '@lucide/vue';
+import { ref, computed } from 'vue';
 
 interface AlumniItem {
     id: number;
@@ -60,21 +60,32 @@ const props = defineProps<{
 }>();
 
 const alumniList = computed<AlumniItem[]>(() => {
-    if (Array.isArray(props.alumni)) return props.alumni;
+    if (Array.isArray(props.alumni)) {
+        return props.alumni;
+    }
+
     return (props.alumni as any)?.data || [];
 });
 
 const galleryList = computed<GalleryItem[]>(() => {
-    if (Array.isArray(props.gallery)) return props.gallery;
+    if (Array.isArray(props.gallery)) {
+        return props.gallery;
+    }
+
     return (props.gallery as any)?.data || [];
 });
 
 const procedureList = computed<ProcedureItem[]>(() => {
-    if (Array.isArray(props.procedures)) return props.procedures;
+    if (Array.isArray(props.procedures)) {
+        return props.procedures;
+    }
+
     return (props.procedures as any)?.data || [];
 });
 
-const activeTab = ref<'sections' | 'alumni' | 'gallery' | 'procedures'>('sections');
+const activeTab = ref<'sections' | 'alumni' | 'gallery' | 'procedures'>(
+    'sections',
+);
 
 // Form 1: General Sections Form
 const sectionForm = useForm({
@@ -92,7 +103,7 @@ const sectionForm = useForm({
         contact_phone: props.sections.contact_phone || '',
         contact_whatsapp: props.sections.contact_whatsapp || '',
         contact_hours: props.sections.contact_hours || '',
-    }
+    },
 });
 
 const submitSections = () => {
@@ -134,6 +145,7 @@ const openAlumniModal = (item?: AlumniItem) => {
         alumniForm.reset();
         alumniForm.id = null;
     }
+
     isAlumniModalOpen.value = true;
 };
 
@@ -142,7 +154,7 @@ const submitAlumni = () => {
         onSuccess: () => {
             isAlumniModalOpen.value = false;
             alumniForm.reset();
-        }
+        },
     });
 };
 
@@ -179,6 +191,7 @@ const openGalleryModal = (item?: GalleryItem) => {
         galleryForm.reset();
         galleryForm.id = null;
     }
+
     isGalleryModalOpen.value = true;
 };
 
@@ -187,7 +200,7 @@ const submitGallery = () => {
         onSuccess: () => {
             isGalleryModalOpen.value = false;
             galleryForm.reset();
-        }
+        },
     });
 };
 
@@ -220,6 +233,7 @@ const openProcedureModal = (item?: ProcedureItem) => {
         procedureForm.reset();
         procedureForm.id = null;
     }
+
     isProcedureModalOpen.value = true;
 };
 
@@ -228,7 +242,7 @@ const submitProcedure = () => {
         onSuccess: () => {
             isProcedureModalOpen.value = false;
             procedureForm.reset();
-        }
+        },
     });
 };
 
@@ -241,447 +255,881 @@ const deleteProcedure = (id: number) => {
 
 <template>
     <div class="space-y-6">
-            <!-- Header Section -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                        <Globe class="w-5 h-5 text-[rgb(93,135,255)]" />
-                        Pengaturan Konten Landing Page (Admin CMS)
-                    </h1>
-                    <p class="text-xs text-slate-500 mt-1">
-                        Kelola teks seksi beranda, tentang, testimoni alumni, foto galeri, alur prosedur, serta informasi kontak publik.
-                    </p>
-                </div>
-
-                <a 
-                    href="/" 
-                    target="_blank" 
-                    class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl text-xs flex items-center gap-1.5 transition-all self-start sm:self-auto"
+        <!-- Header Section -->
+        <div
+            class="flex flex-col justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xs sm:flex-row sm:items-center"
+        >
+            <div>
+                <h1
+                    class="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-950"
                 >
-                    <Globe class="w-4 h-4 text-blue-400" />
-                    <span>Lihat Website Landing</span>
-                </a>
+                    <Globe class="h-5 w-5 text-zinc-900" />
+                    Pengaturan Konten Landing Page (Admin CMS)
+                </h1>
+                <p class="mt-1 text-xs text-zinc-500">
+                    Kelola teks seksi beranda, tentang, testimoni alumni, foto
+                    galeri, alur prosedur, serta informasi kontak publik.
+                </p>
             </div>
 
-            <!-- Tab Navigation Buttons -->
-            <div class="flex items-center gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 overflow-x-auto">
-                <button 
-                    @click="activeTab = 'sections'"
-                    class="px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2"
-                    :class="activeTab === 'sections' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-                >
-                    <Sparkles class="w-4 h-4 text-[rgb(93,135,255)]" />
-                    <span>Teks Seksi Utama & Kontak</span>
-                </button>
+            <a
+                href="/"
+                target="_blank"
+                class="flex cursor-pointer items-center gap-1.5 self-start rounded-xl bg-zinc-950 px-4 py-2 text-xs font-semibold text-white shadow-xs transition-all hover:bg-zinc-800 sm:self-auto"
+            >
+                <Globe class="h-4 w-4 text-zinc-300" />
+                <span>Lihat Website Landing</span>
+            </a>
+        </div>
 
-                <button 
-                    @click="activeTab = 'alumni'"
-                    class="px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2"
-                    :class="activeTab === 'alumni' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-                >
-                    <Users class="w-4 h-4 text-emerald-600" />
-                    <span>Testimoni Alumni ({{ alumniList.length }})</span>
-                </button>
+        <!-- Tab Navigation Buttons -->
+        <div
+            class="flex items-center gap-2 overflow-x-auto rounded-2xl border border-zinc-200 bg-zinc-100 p-1.5"
+        >
+            <button
+                @click="activeTab = 'sections'"
+                class="flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold whitespace-nowrap transition-all"
+                :class="
+                    activeTab === 'sections'
+                        ? 'bg-white text-zinc-900 shadow-2xs'
+                        : 'text-zinc-600 hover:text-zinc-900'
+                "
+            >
+                <Sparkles class="h-4 w-4 text-zinc-900" />
+                <span>Teks Seksi Utama & Kontak</span>
+            </button>
 
-                <button 
-                    @click="activeTab = 'gallery'"
-                    class="px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2"
-                    :class="activeTab === 'gallery' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
-                >
-                    <Image class="w-4 h-4 text-purple-600" />
-                    <span>Galeri Kegiatan ({{ galleryList.length }})</span>
-                </button>
+            <button
+                @click="activeTab = 'alumni'"
+                class="flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold whitespace-nowrap transition-all"
+                :class="
+                    activeTab === 'alumni'
+                        ? 'bg-white text-zinc-900 shadow-2xs'
+                        : 'text-zinc-600 hover:text-zinc-900'
+                "
+            >
+                <Users class="h-4 w-4 text-emerald-600" />
+                <span>Testimoni Alumni ({{ alumniList.length }})</span>
+            </button>
 
-                <button 
-                    @click="activeTab = 'procedures'"
-                    class="px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2"
-                    :class="activeTab === 'procedures' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+            <button
+                @click="activeTab = 'gallery'"
+                class="flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold whitespace-nowrap transition-all"
+                :class="
+                    activeTab === 'gallery'
+                        ? 'bg-white text-zinc-900 shadow-2xs'
+                        : 'text-zinc-600 hover:text-zinc-900'
+                "
+            >
+                <Image class="h-4 w-4 text-purple-600" />
+                <span>Galeri Kegiatan ({{ galleryList.length }})</span>
+            </button>
+
+            <button
+                @click="activeTab = 'procedures'"
+                class="flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold whitespace-nowrap transition-all"
+                :class="
+                    activeTab === 'procedures'
+                        ? 'bg-white text-zinc-900 shadow-2xs'
+                        : 'text-zinc-600 hover:text-zinc-900'
+                "
+            >
+                <ListOrdered class="h-4 w-4 text-amber-600" />
+                <span>Prosedur & Alur ({{ procedureList.length }})</span>
+            </button>
+        </div>
+
+        <!-- TAB 1: GENERAL SECTIONS & CONTACT FORM -->
+        <form
+            v-if="activeTab === 'sections'"
+            @submit.prevent="submitSections"
+            class="space-y-6"
+        >
+            <!-- 1. Seksi Beranda (Hero) -->
+            <div
+                class="space-y-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xs"
+            >
+                <h3
+                    class="flex items-center gap-2 border-b border-zinc-100 pb-3 text-sm font-bold text-zinc-900"
                 >
-                    <ListOrdered class="w-4 h-4 text-amber-600" />
-                    <span>Prosedur & Alur ({{ procedureList.length }})</span>
+                    <Sparkles class="h-4 w-4 text-zinc-900" />
+                    1. Konten Seksi Beranda (Hero Banner)
+                </h3>
+
+                <div class="space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Badge Pengumuman Atas</label
+                        >
+                        <input
+                            v-model="sectionForm.sections.hero_badge"
+                            type="text"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm font-medium text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Judul Utama (Headline)</label
+                        >
+                        <input
+                            v-model="sectionForm.sections.hero_title"
+                            type="text"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm font-bold text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Subjudul Deskripsi</label
+                        >
+                        <textarea
+                            v-model="sectionForm.sections.hero_subtitle"
+                            rows="3"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 text-sm text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Seksi Tentang & Statistik -->
+            <div
+                class="space-y-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xs"
+            >
+                <h3
+                    class="flex items-center gap-2 border-b border-zinc-100 pb-3 text-sm font-bold text-zinc-900"
+                >
+                    <Globe class="h-4 w-4 text-emerald-600" />
+                    2. Konten Seksi Tentang Kami & Angka Statistik
+                </h3>
+
+                <div class="space-y-4">
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Judul Seksi Tentang</label
+                        >
+                        <input
+                            v-model="sectionForm.sections.about_title"
+                            type="text"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm font-bold text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Penjelasan Deskripsi</label
+                        >
+                        <textarea
+                            v-model="sectionForm.sections.about_description"
+                            rows="3"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 text-sm text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        ></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 pt-2 sm:grid-cols-3">
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >Angka Statistik Siswa</label
+                            >
+                            <input
+                                v-model="
+                                    sectionForm.sections.about_stat_students
+                                "
+                                type="text"
+                                placeholder="500+"
+                                class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm font-bold text-zinc-950 focus:border-zinc-950 focus:outline-none"
+                            />
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >Angka Statistik Sekolah</label
+                            >
+                            <input
+                                v-model="
+                                    sectionForm.sections.about_stat_schools
+                                "
+                                type="text"
+                                placeholder="45+"
+                                class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm font-bold text-zinc-950 focus:border-zinc-950 focus:outline-none"
+                            />
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >Angka Statistik Divisi</label
+                            >
+                            <input
+                                v-model="
+                                    sectionForm.sections.about_stat_divisions
+                                "
+                                type="text"
+                                placeholder="12+"
+                                class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm font-bold text-zinc-950 focus:border-zinc-950 focus:outline-none"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Seksi Hubungi Kami -->
+            <div
+                class="space-y-4 rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xs"
+            >
+                <h3
+                    class="flex items-center gap-2 border-b border-zinc-100 pb-3 text-sm font-bold text-zinc-900"
+                >
+                    <PhoneCall class="h-4 w-4 text-purple-600" />
+                    3. Informasi Kontak & Alamat
+                </h3>
+
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div class="space-y-1.5 sm:col-span-2">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Alamat Lengkap Pusat</label
+                        >
+                        <input
+                            v-model="sectionForm.sections.contact_address"
+                            type="text"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Email Resmi</label
+                        >
+                        <input
+                            v-model="sectionForm.sections.contact_email"
+                            type="email"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Telepon Kantor</label
+                        >
+                        <input
+                            v-model="sectionForm.sections.contact_phone"
+                            type="text"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Nomor WhatsApp Direct</label
+                        >
+                        <input
+                            v-model="sectionForm.sections.contact_whatsapp"
+                            type="text"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Jam Operasional Layanan</label
+                        >
+                        <input
+                            v-model="sectionForm.sections.contact_hours"
+                            type="text"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button
+                    type="submit"
+                    :disabled="sectionForm.processing"
+                    class="flex cursor-pointer items-center gap-2 rounded-xl bg-zinc-950 px-6 py-3 text-xs font-bold text-white shadow-xs transition-all hover:bg-zinc-800 disabled:opacity-50"
+                >
+                    <Save class="h-4 w-4" />
+                    <span>Simpan Perubahan Seksi Landing</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- TAB 2: ALUMNI MANAGEMENT -->
+        <div v-if="activeTab === 'alumni'" class="space-y-6">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-zinc-900">
+                    Daftar Testimoni Alumni PKL
+                </h3>
+                <button
+                    @click="openAlumniModal()"
+                    class="flex cursor-pointer items-center gap-1.5 rounded-xl bg-zinc-950 px-4 py-2 text-xs font-bold text-white shadow-xs transition-all hover:bg-zinc-800"
+                >
+                    <Plus class="h-4 w-4" />
+                    <span>Tambah Alumni Baru</span>
                 </button>
             </div>
 
-            <!-- TAB 1: GENERAL SECTIONS & CONTACT FORM -->
-            <form v-if="activeTab === 'sections'" @submit.prevent="submitSections" class="space-y-6">
-                <!-- 1. Seksi Beranda (Hero) -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-3 flex items-center gap-2">
-                        <Sparkles class="w-4 h-4 text-[rgb(93,135,255)]" />
-                        1. Konten Seksi Beranda (Hero Banner)
-                    </h3>
-
-                    <div class="space-y-4">
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Badge Pengumuman Atas</label>
-                            <input v-model="sectionForm.sections.hero_badge" type="text" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:border-[rgb(93,135,255)]" />
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Judul Utama (Headline)</label>
-                            <input v-model="sectionForm.sections.hero_title" type="text" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:border-[rgb(93,135,255)]" />
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Subjudul Deskripsi</label>
-                            <textarea v-model="sectionForm.sections.hero_subtitle" rows="3" class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-[rgb(93,135,255)]"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. Seksi Tentang & Statistik -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-3 flex items-center gap-2">
-                        <Globe class="w-4 h-4 text-emerald-600" />
-                        2. Konten Seksi Tentang Kami & Angka Statistik
-                    </h3>
-
-                    <div class="space-y-4">
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Judul Seksi Tentang</label>
-                            <input v-model="sectionForm.sections.about_title" type="text" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold" />
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Penjelasan Deskripsi</label>
-                            <textarea v-model="sectionForm.sections.about_description" rows="3" class="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-sm"></textarea>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                            <div class="space-y-1">
-                                <label class="text-xs font-semibold text-slate-700">Angka Statistik Siswa</label>
-                                <input v-model="sectionForm.sections.about_stat_students" type="text" placeholder="500+" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-blue-600" />
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div
+                    v-for="item in alumniList"
+                    :key="item.id"
+                    class="flex flex-col justify-between space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs"
+                >
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 text-sm font-bold text-zinc-950"
+                            >
+                                <img
+                                    v-if="item.photo_path"
+                                    :src="
+                                        item.photo_path.startsWith('http')
+                                            ? item.photo_path
+                                            : `/storage/${item.photo_path}`
+                                    "
+                                    :alt="item.name"
+                                    class="h-full w-full object-cover"
+                                />
+                                <span v-else>{{
+                                    item?.username
+                                        ? item.username
+                                              .replace('@', '')
+                                              .charAt(0)
+                                              .toUpperCase()
+                                        : item?.name
+                                          ? item.name.charAt(0).toUpperCase()
+                                          : 'A'
+                                }}</span>
                             </div>
-
-                            <div class="space-y-1">
-                                <label class="text-xs font-semibold text-slate-700">Angka Statistik Sekolah</label>
-                                <input v-model="sectionForm.sections.about_stat_schools" type="text" placeholder="45+" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-blue-600" />
+                            <div class="truncate">
+                                <h4
+                                    class="flex items-center gap-1 truncate text-sm font-bold text-zinc-900"
+                                >
+                                    <span>{{ item.name }}</span>
+                                    <span
+                                        v-if="item.username"
+                                        class="font-mono text-xs text-zinc-500"
+                                        >({{
+                                            item.username.startsWith('@')
+                                                ? item.username
+                                                : '@' + item.username
+                                        }})</span
+                                    >
+                                </h4>
+                                <p
+                                    v-if="item.division_name"
+                                    class="truncate text-xs font-semibold text-zinc-950"
+                                >
+                                    Divisi: {{ item.division_name }}
+                                </p>
+                                <p
+                                    v-else
+                                    class="truncate text-xs text-zinc-500"
+                                >
+                                    {{ item.current_position || 'Alumni PKL' }}
+                                </p>
                             </div>
-
-                            <div class="space-y-1">
-                                <label class="text-xs font-semibold text-slate-700">Angka Statistik Divisi</label>
-                                <input v-model="sectionForm.sections.about_stat_divisions" type="text" placeholder="12+" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-blue-600" />
-                            </div>
                         </div>
+                        <p class="text-xs text-zinc-600 italic">
+                            "{{ item.quote }}"
+                        </p>
+                        <p class="text-[11px] text-zinc-400">
+                            {{ item.school_name }} • {{ item.graduation_year }}
+                        </p>
                     </div>
-                </div>
 
-                <!-- 3. Seksi Hubungi Kami -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <h3 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-3 flex items-center gap-2">
-                        <PhoneCall class="w-4 h-4 text-purple-600" />
-                        3. Informasi Kontak & Alamat
-                    </h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="space-y-1.5 sm:col-span-2">
-                            <label class="text-xs font-semibold text-slate-700">Alamat Lengkap Pusat</label>
-                            <input v-model="sectionForm.sections.contact_address" type="text" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Email Resmi</label>
-                            <input v-model="sectionForm.sections.contact_email" type="email" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Telepon Kantor</label>
-                            <input v-model="sectionForm.sections.contact_phone" type="text" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Nomor WhatsApp Direct</label>
-                            <input v-model="sectionForm.sections.contact_whatsapp" type="text" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
-                        </div>
-
-                        <div class="space-y-1.5">
-                            <label class="text-xs font-semibold text-slate-700">Jam Operasional Layanan</label>
-                            <input v-model="sectionForm.sections.contact_hours" type="text" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-end">
-                    <button 
-                        type="submit" 
-                        :disabled="sectionForm.processing"
-                        class="px-6 py-3 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 flex items-center gap-2 text-xs transition-all disabled:opacity-50"
+                    <div
+                        class="flex items-center justify-end gap-2 border-t border-zinc-100 pt-3"
                     >
-                        <Save class="w-4 h-4" />
-                        <span>Simpan Perubahan Seksi Landing</span>
+                        <button
+                            @click="openAlumniModal(item)"
+                            class="cursor-pointer rounded-lg p-1.5 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950"
+                        >
+                            <Edit3 class="h-4 w-4" />
+                        </button>
+                        <button
+                            @click="deleteAlumni(item.id)"
+                            class="cursor-pointer rounded-lg p-1.5 text-zinc-600 hover:bg-zinc-100 hover:text-rose-600"
+                        >
+                            <Trash2 class="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: GALLERY MANAGEMENT -->
+        <div v-if="activeTab === 'gallery'" class="space-y-6">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-zinc-900">
+                    Foto & Dokumentasi Galeri
+                </h3>
+                <button
+                    @click="openGalleryModal()"
+                    class="flex cursor-pointer items-center gap-1.5 rounded-xl bg-zinc-950 px-4 py-2 text-xs font-bold text-white shadow-xs transition-all hover:bg-zinc-800"
+                >
+                    <Plus class="h-4 w-4" />
+                    <span>Tambah Foto Galeri</span>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div
+                    v-for="item in galleryList"
+                    :key="item.id"
+                    class="flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
+                >
+                    <div>
+                        <div class="relative h-40 overflow-hidden bg-zinc-100">
+                            <img
+                                :src="item.image_path"
+                                :alt="item.title"
+                                class="h-full w-full object-cover"
+                            />
+                            <span
+                                class="absolute top-2 left-2 rounded-full bg-zinc-950/80 px-2.5 py-0.5 text-[10px] font-bold text-white"
+                            >
+                                {{ item.category }}
+                            </span>
+                        </div>
+                        <div class="space-y-1 p-4">
+                            <h4 class="text-sm font-bold text-zinc-900">
+                                {{ item.title }}
+                            </h4>
+                            <p class="line-clamp-2 text-xs text-zinc-500">
+                                {{ item.caption }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex items-center justify-end gap-2 border-t border-zinc-100 bg-zinc-50 p-3"
+                    >
+                        <button
+                            @click="openGalleryModal(item)"
+                            class="cursor-pointer rounded-lg p-1.5 text-zinc-600 hover:bg-white hover:text-zinc-950"
+                        >
+                            <Edit3 class="h-4 w-4" />
+                        </button>
+                        <button
+                            @click="deleteGallery(item.id)"
+                            class="cursor-pointer rounded-lg p-1.5 text-zinc-600 hover:bg-white hover:text-rose-600"
+                        >
+                            <Trash2 class="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: PROCEDURES MANAGEMENT -->
+        <div v-if="activeTab === 'procedures'" class="space-y-6">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-bold text-zinc-900">
+                    Alur & Prosedur Pendaftaran PKL
+                </h3>
+                <button
+                    @click="openProcedureModal()"
+                    class="flex cursor-pointer items-center gap-1.5 rounded-xl bg-zinc-950 px-4 py-2 text-xs font-bold text-white shadow-xs transition-all hover:bg-zinc-800"
+                >
+                    <Plus class="h-4 w-4" />
+                    <span>Tambah Langkah Prosedur</span>
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <div
+                    v-for="proc in procedureList"
+                    :key="proc.id"
+                    class="flex items-center justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs"
+                >
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-sm font-black text-zinc-950"
+                        >
+                            {{ proc.step_number }}
+                        </div>
+                        <div>
+                            <h4
+                                class="flex items-center gap-2 text-sm font-bold text-zinc-900"
+                            >
+                                <span>{{ proc.title }}</span>
+                                <span
+                                    class="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-normal text-zinc-500"
+                                    >Icon: {{ proc.icon }}</span
+                                >
+                            </h4>
+                            <p class="mt-0.5 text-xs text-zinc-500">
+                                {{ proc.description }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex shrink-0 items-center gap-2">
+                        <button
+                            @click="openProcedureModal(proc)"
+                            class="cursor-pointer rounded-lg p-1.5 text-zinc-600 hover:bg-zinc-50 hover:text-zinc-950"
+                        >
+                            <Edit3 class="h-4 w-4" />
+                        </button>
+                        <button
+                            @click="deleteProcedure(proc.id)"
+                            class="cursor-pointer rounded-lg p-1.5 text-zinc-600 hover:bg-zinc-50 hover:text-rose-600"
+                        >
+                            <Trash2 class="h-4 w-4" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ALUMNI -->
+    <div
+        v-if="isAlumniModalOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/60 p-4 backdrop-blur-sm"
+    >
+        <div
+            class="w-full max-w-lg space-y-4 overflow-hidden rounded-2xl border border-zinc-100 bg-white p-6 shadow-xl"
+        >
+            <div
+                class="flex items-center justify-between border-b border-zinc-100 pb-3"
+            >
+                <h3 class="text-sm font-bold text-zinc-900">
+                    {{
+                        alumniForm.id
+                            ? 'Edit Testimoni Alumni'
+                            : 'Tambah Testimoni Alumni Baru'
+                    }}
+                </h3>
+                <button
+                    @click="isAlumniModalOpen = false"
+                    class="cursor-pointer text-zinc-400 hover:text-zinc-600"
+                >
+                    <X class="h-5 w-5" />
+                </button>
+            </div>
+
+            <form @submit.prevent="submitAlumni" class="space-y-4 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Nama Alumni *</label
+                        >
+                        <input
+                            v-model="alumniForm.name"
+                            type="text"
+                            required
+                            placeholder="Afdanu Aprilian"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Username (Opsional)</label
+                        >
+                        <input
+                            v-model="alumniForm.username"
+                            type="text"
+                            placeholder="@afdanu_dev"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Nama Divisi PKL</label
+                        >
+                        <input
+                            v-model="alumniForm.division_name"
+                            type="text"
+                            placeholder="Software Engineering"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Asal Sekolah / Kampus *</label
+                        >
+                        <input
+                            v-model="alumniForm.school_name"
+                            type="text"
+                            required
+                            placeholder="SMKN 1 Surabaya"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Jurusan</label
+                        >
+                        <input
+                            v-model="alumniForm.major_name"
+                            type="text"
+                            placeholder="Rekayasa Perangkat Lunak"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Tahun Lulus</label
+                        >
+                        <input
+                            v-model="alumniForm.graduation_year"
+                            type="text"
+                            placeholder="2025"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="col-span-2 space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Posisi / Pekerjaan Sekarang</label
+                        >
+                        <input
+                            v-model="alumniForm.current_position"
+                            type="text"
+                            placeholder="Junior Software Engineer"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-semibold text-zinc-700"
+                        >Kutipan / Testimoni *</label
+                    >
+                    <textarea
+                        v-model="alumniForm.quote"
+                        rows="3"
+                        required
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                    ></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        @click="isAlumniModalOpen = false"
+                        class="cursor-pointer rounded-xl bg-zinc-100 px-4 py-2 font-semibold text-zinc-700"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        type="submit"
+                        :disabled="alumniForm.processing"
+                        class="cursor-pointer rounded-xl bg-zinc-950 px-4 py-2 font-bold text-white hover:bg-zinc-800"
+                    >
+                        Simpan
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
 
-            <!-- TAB 2: ALUMNI MANAGEMENT -->
-            <div v-if="activeTab === 'alumni'" class="space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="font-bold text-slate-900 text-base">Daftar Testimoni Alumni PKL</h3>
-                    <button 
-                        @click="openAlumniModal()" 
-                        class="px-4 py-2 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all"
+    <!-- MODAL GALLERY -->
+    <div
+        v-if="isGalleryModalOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/60 p-4 backdrop-blur-sm"
+    >
+        <div
+            class="w-full max-w-lg space-y-4 overflow-hidden rounded-2xl border border-zinc-100 bg-white p-6 shadow-xl"
+        >
+            <div
+                class="flex items-center justify-between border-b border-zinc-100 pb-3"
+            >
+                <h3 class="text-sm font-bold text-zinc-900">
+                    {{
+                        galleryForm.id
+                            ? 'Edit Item Galeri'
+                            : 'Tambah Item Galeri Baru'
+                    }}
+                </h3>
+                <button
+                    @click="isGalleryModalOpen = false"
+                    class="cursor-pointer text-zinc-400 hover:text-zinc-600"
+                >
+                    <X class="h-5 w-5" />
+                </button>
+            </div>
+
+            <form @submit.prevent="submitGallery" class="space-y-4 text-xs">
+                <div class="space-y-1">
+                    <label class="font-semibold text-zinc-700"
+                        >Judul Foto / Kegiatan *</label
                     >
-                        <Plus class="w-4 h-4" />
-                        <span>Tambah Alumni Baru</span>
+                    <input
+                        v-model="galleryForm.title"
+                        type="text"
+                        required
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                    />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Kategori *</label
+                        >
+                        <select
+                            v-model="galleryForm.category"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 font-medium text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        >
+                            <option value="Orientasi">Orientasi</option>
+                            <option value="Kegiatan">Kegiatan</option>
+                            <option value="Evaluasi">Evaluasi</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Urutan Tampil</label
+                        >
+                        <input
+                            v-model="galleryForm.order"
+                            type="number"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-semibold text-zinc-700"
+                        >URL Gambar (atau Unggah File)</label
+                    >
+                    <input
+                        v-model="galleryForm.image_url"
+                        type="text"
+                        placeholder="https://..."
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                    />
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-semibold text-zinc-700"
+                        >Caption / Deskripsi Singkat</label
+                    >
+                    <textarea
+                        v-model="galleryForm.caption"
+                        rows="2"
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                    ></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        @click="isGalleryModalOpen = false"
+                        class="cursor-pointer rounded-xl bg-zinc-100 px-4 py-2 font-semibold text-zinc-700"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        type="submit"
+                        :disabled="galleryForm.processing"
+                        class="cursor-pointer rounded-xl bg-zinc-950 px-4 py-2 font-bold text-white hover:bg-zinc-800"
+                    >
+                        Simpan
                     </button>
                 </div>
+            </form>
+        </div>
+    </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div v-for="item in alumniList" :key="item.id" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl overflow-hidden bg-blue-50 text-[rgb(93,135,255)] flex items-center justify-center font-bold text-sm shrink-0 border border-blue-100">
-                                    <img v-if="item.photo_path" :src="item.photo_path.startsWith('http') ? item.photo_path : `/storage/${item.photo_path}`" :alt="item.name" class="w-full h-full object-cover" />
-                                    <span v-else>{{ item?.username ? item.username.replace('@', '').charAt(0).toUpperCase() : (item?.name ? item.name.charAt(0).toUpperCase() : 'A') }}</span>
-                                </div>
-                                <div class="truncate">
-                                    <h4 class="font-bold text-slate-900 text-sm truncate flex items-center gap-1">
-                                        <span>{{ item.name }}</span>
-                                        <span v-if="item.username" class="text-xs text-blue-500 font-mono">({{ item.username.startsWith('@') ? item.username : '@' + item.username }})</span>
-                                    </h4>
-                                    <p v-if="item.division_name" class="text-xs font-semibold text-[rgb(93,135,255)] truncate">Divisi: {{ item.division_name }}</p>
-                                    <p v-else class="text-xs text-slate-500 truncate">{{ item.current_position || 'Alumni PKL' }}</p>
-                                </div>
-                            </div>
-                            <p class="text-xs text-slate-600 italic">"{{ item.quote }}"</p>
-                            <p class="text-[11px] text-slate-400">{{ item.school_name }} • {{ item.graduation_year }}</p>
-                        </div>
-
-                        <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
-                            <button @click="openAlumniModal(item)" class="p-1.5 text-slate-600 hover:text-blue-600 rounded-lg hover:bg-slate-100">
-                                <Edit3 class="w-4 h-4" />
-                            </button>
-                            <button @click="deleteAlumni(item.id)" class="p-1.5 text-slate-600 hover:text-rose-600 rounded-lg hover:bg-slate-100">
-                                <Trash2 class="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <!-- MODAL PROCEDURE -->
+    <div
+        v-if="isProcedureModalOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/60 p-4 backdrop-blur-sm"
+    >
+        <div
+            class="w-full max-w-lg space-y-4 overflow-hidden rounded-2xl border border-zinc-100 bg-white p-6 shadow-xl"
+        >
+            <div
+                class="flex items-center justify-between border-b border-zinc-100 pb-3"
+            >
+                <h3 class="text-sm font-bold text-zinc-900">
+                    {{
+                        procedureForm.id
+                            ? 'Edit Prosedur'
+                            : 'Tambah Langkah Prosedur'
+                    }}
+                </h3>
+                <button
+                    @click="isProcedureModalOpen = false"
+                    class="cursor-pointer text-zinc-400 hover:text-zinc-600"
+                >
+                    <X class="h-5 w-5" />
+                </button>
             </div>
 
-            <!-- TAB 3: GALLERY MANAGEMENT -->
-            <div v-if="activeTab === 'gallery'" class="space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="font-bold text-slate-900 text-base">Foto & Dokumentasi Galeri</h3>
-                    <button 
-                        @click="openGalleryModal()" 
-                        class="px-4 py-2 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all"
+            <form @submit.prevent="submitProcedure" class="space-y-4 text-xs">
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Nomor Langkah *</label
+                        >
+                        <input
+                            v-model="procedureForm.step_number"
+                            type="number"
+                            required
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        />
+                    </div>
+                    <div class="col-span-2 space-y-1">
+                        <label class="font-semibold text-zinc-700"
+                            >Icon Name *</label
+                        >
+                        <select
+                            v-model="procedureForm.icon"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 font-medium text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                        >
+                            <option value="UserPlus">UserPlus</option>
+                            <option value="ShieldCheck">ShieldCheck</option>
+                            <option value="Building">Building</option>
+                            <option value="CalendarCheck">CalendarCheck</option>
+                            <option value="Award">Award</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-semibold text-zinc-700"
+                        >Judul Langkah *</label
                     >
-                        <Plus class="w-4 h-4" />
-                        <span>Tambah Foto Galeri</span>
+                    <input
+                        v-model="procedureForm.title"
+                        type="text"
+                        required
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                    />
+                </div>
+
+                <div class="space-y-1">
+                    <label class="font-semibold text-zinc-700"
+                        >Deskripsi *</label
+                    >
+                    <textarea
+                        v-model="procedureForm.description"
+                        rows="3"
+                        required
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 p-3 text-zinc-900 focus:border-zinc-950 focus:outline-none"
+                    ></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        @click="isProcedureModalOpen = false"
+                        class="cursor-pointer rounded-xl bg-zinc-100 px-4 py-2 font-semibold text-zinc-700"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        type="submit"
+                        :disabled="procedureForm.processing"
+                        class="cursor-pointer rounded-xl bg-zinc-950 px-4 py-2 font-bold text-white hover:bg-zinc-800"
+                    >
+                        Simpan
                     </button>
                 </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div v-for="item in galleryList" :key="item.id" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
-                        <div>
-                            <div class="h-40 bg-slate-100 overflow-hidden relative">
-                                <img :src="item.image_path" :alt="item.title" class="w-full h-full object-cover" />
-                                <span class="absolute top-2 left-2 px-2.5 py-0.5 bg-slate-900/80 text-white rounded-full text-[10px] font-bold">
-                                    {{ item.category }}
-                                </span>
-                            </div>
-                            <div class="p-4 space-y-1">
-                                <h4 class="font-bold text-slate-900 text-sm">{{ item.title }}</h4>
-                                <p class="text-xs text-slate-500 line-clamp-2">{{ item.caption }}</p>
-                            </div>
-                        </div>
-
-                        <div class="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2">
-                            <button @click="openGalleryModal(item)" class="p-1.5 text-slate-600 hover:text-blue-600 rounded-lg hover:bg-white">
-                                <Edit3 class="w-4 h-4" />
-                            </button>
-                            <button @click="deleteGallery(item.id)" class="p-1.5 text-slate-600 hover:text-rose-600 rounded-lg hover:bg-white">
-                                <Trash2 class="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 4: PROCEDURES MANAGEMENT -->
-            <div v-if="activeTab === 'procedures'" class="space-y-6">
-                <div class="flex items-center justify-between">
-                    <h3 class="font-bold text-slate-900 text-base">Alur & Prosedur Pendaftaran PKL</h3>
-                    <button 
-                        @click="openProcedureModal()" 
-                        class="px-4 py-2 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all"
-                    >
-                        <Plus class="w-4 h-4" />
-                        <span>Tambah Langkah Prosedur</span>
-                    </button>
-                </div>
-
-                <div class="space-y-3">
-                    <div v-for="proc in procedureList" :key="proc.id" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between gap-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-9 h-9 rounded-xl bg-blue-50 text-[rgb(93,135,255)] font-black text-sm flex items-center justify-center border border-blue-100 shrink-0">
-                                {{ proc.step_number }}
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-                                    <span>{{ proc.title }}</span>
-                                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 font-normal text-slate-500">Icon: {{ proc.icon }}</span>
-                                </h4>
-                                <p class="text-xs text-slate-500 mt-0.5">{{ proc.description }}</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2 shrink-0">
-                            <button @click="openProcedureModal(proc)" class="p-1.5 text-slate-600 hover:text-blue-600 rounded-lg hover:bg-slate-50">
-                                <Edit3 class="w-4 h-4" />
-                            </button>
-                            <button @click="deleteProcedure(proc.id)" class="p-1.5 text-slate-600 hover:text-rose-600 rounded-lg hover:bg-slate-50">
-                                <Trash2 class="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
-
-        <!-- MODAL ALUMNI -->
-        <div v-if="isAlumniModalOpen" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl overflow-hidden space-y-4 p-6">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-slate-900 text-sm">{{ alumniForm.id ? 'Edit Testimoni Alumni' : 'Tambah Testimoni Alumni Baru' }}</h3>
-                    <button @click="isAlumniModalOpen = false" class="text-slate-400 hover:text-slate-600"><X class="w-5 h-5" /></button>
-                </div>
-
-                <form @submit.prevent="submitAlumni" class="space-y-4 text-xs">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Nama Alumni *</label>
-                            <input v-model="alumniForm.name" type="text" required placeholder="Afdanu Aprilian" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Username (Opsional)</label>
-                            <input v-model="alumniForm.username" type="text" placeholder="@afdanu_dev" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Nama Divisi PKL</label>
-                            <input v-model="alumniForm.division_name" type="text" placeholder="Software Engineering" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Asal Sekolah / Kampus *</label>
-                            <input v-model="alumniForm.school_name" type="text" required placeholder="SMKN 1 Surabaya" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Jurusan</label>
-                            <input v-model="alumniForm.major_name" type="text" placeholder="Rekayasa Perangkat Lunak" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Tahun Lulus</label>
-                            <input v-model="alumniForm.graduation_year" type="text" placeholder="2025" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                        </div>
-                        <div class="space-y-1 col-span-2">
-                            <label class="font-semibold text-slate-700">Posisi / Pekerjaan Sekarang</label>
-                            <input v-model="alumniForm.current_position" type="text" placeholder="Junior Software Engineer" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                        </div>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="font-semibold text-slate-700">Kutipan / Testimoni *</label>
-                        <textarea v-model="alumniForm.quote" rows="3" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl"></textarea>
-                    </div>
-
-                    <div class="flex justify-end gap-2 pt-2">
-                        <button type="button" @click="isAlumniModalOpen = false" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl font-semibold">Batal</button>
-                        <button type="submit" :disabled="alumniForm.processing" class="px-4 py-2 bg-[rgb(93,135,255)] text-white rounded-xl font-bold">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- MODAL GALLERY -->
-        <div v-if="isGalleryModalOpen" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl overflow-hidden space-y-4 p-6">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-slate-900 text-sm">{{ galleryForm.id ? 'Edit Item Galeri' : 'Tambah Item Galeri Baru' }}</h3>
-                    <button @click="isGalleryModalOpen = false" class="text-slate-400 hover:text-slate-600"><X class="w-5 h-5" /></button>
-                </div>
-
-                <form @submit.prevent="submitGallery" class="space-y-4 text-xs">
-                    <div class="space-y-1">
-                        <label class="font-semibold text-slate-700">Judul Foto / Kegiatan *</label>
-                        <input v-model="galleryForm.title" type="text" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Kategori *</label>
-                            <select v-model="galleryForm.category" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-medium">
-                                <option value="Orientasi">Orientasi</option>
-                                <option value="Kegiatan">Kegiatan</option>
-                                <option value="Evaluasi">Evaluasi</option>
-                            </select>
-                        </div>
-
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Urutan Tampil</label>
-                            <input v-model="galleryForm.order" type="number" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                        </div>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="font-semibold text-slate-700">URL Gambar (atau Unggah File)</label>
-                        <input v-model="galleryForm.image_url" type="text" placeholder="https://..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="font-semibold text-slate-700">Caption / Deskripsi Singkat</label>
-                        <textarea v-model="galleryForm.caption" rows="2" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl"></textarea>
-                    </div>
-
-                    <div class="flex justify-end gap-2 pt-2">
-                        <button type="button" @click="isGalleryModalOpen = false" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl font-semibold">Batal</button>
-                        <button type="submit" :disabled="galleryForm.processing" class="px-4 py-2 bg-[rgb(93,135,255)] text-white rounded-xl font-bold">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- MODAL PROCEDURE -->
-        <div v-if="isProcedureModalOpen" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl overflow-hidden space-y-4 p-6">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-slate-900 text-sm">{{ procedureForm.id ? 'Edit Prosedur' : 'Tambah Langkah Prosedur' }}</h3>
-                    <button @click="isProcedureModalOpen = false" class="text-slate-400 hover:text-slate-600"><X class="w-5 h-5" /></button>
-                </div>
-
-                <form @submit.prevent="submitProcedure" class="space-y-4 text-xs">
-                    <div class="grid grid-cols-3 gap-3">
-                        <div class="space-y-1">
-                            <label class="font-semibold text-slate-700">Nomor Langkah *</label>
-                            <input v-model="procedureForm.step_number" type="number" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                        </div>
-                        <div class="space-y-1 col-span-2">
-                            <label class="font-semibold text-slate-700">Icon Name *</label>
-                            <select v-model="procedureForm.icon" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-medium">
-                                <option value="UserPlus">UserPlus</option>
-                                <option value="ShieldCheck">ShieldCheck</option>
-                                <option value="Building">Building</option>
-                                <option value="CalendarCheck">CalendarCheck</option>
-                                <option value="Award">Award</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="font-semibold text-slate-700">Judul Langkah *</label>
-                        <input v-model="procedureForm.title" type="text" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl" />
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="font-semibold text-slate-700">Deskripsi *</label>
-                        <textarea v-model="procedureForm.description" rows="3" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl"></textarea>
-                    </div>
-
-                    <div class="flex justify-end gap-2 pt-2">
-                        <button type="button" @click="isProcedureModalOpen = false" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl font-semibold">Batal</button>
-                        <button type="submit" :disabled="procedureForm.processing" class="px-4 py-2 bg-[rgb(93,135,255)] text-white rounded-xl font-bold">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+    </div>
 </template>

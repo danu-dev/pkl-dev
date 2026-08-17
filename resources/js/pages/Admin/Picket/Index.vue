@@ -38,79 +38,161 @@ const dayNames: Record<string, string> = {
 
 <template>
     <div class="space-y-6">
-            <!-- Header section -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                    <Sparkles class="w-5 h-5 text-[rgb(93,135,255)]" />
-                    Kelola Jadwal & Laporan Piket Siswa
-                </h1>
-                <p class="text-xs text-slate-500 mt-1">Ploting petugas piket harian dan tinjau laporan foto piket yang dikirimkan.</p>
-            </div>
+        <!-- Header section -->
+        <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs">
+            <h1
+                class="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-950"
+            >
+                <Sparkles class="h-5 w-5 text-zinc-900" />
+                Kelola Jadwal & Laporan Piket Siswa
+            </h1>
+            <p class="mt-1 text-xs text-zinc-500">
+                Ploting petugas piket harian dan tinjau laporan foto piket yang
+                dikirimkan.
+            </p>
+        </div>
 
-            <!-- Form Ploting Jadwal -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                <h3 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-2">Ploting Petugas Piket Baru</h3>
-                <form @submit.prevent="submitSchedule" class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <!-- Form Ploting Jadwal -->
+        <div
+            class="space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs"
+        >
+            <h3
+                class="border-b border-zinc-100 pb-2 text-sm font-bold text-zinc-900"
+            >
+                Ploting Petugas Piket Baru
+            </h3>
+            <form
+                @submit.prevent="submitSchedule"
+                class="grid grid-cols-1 gap-4 sm:grid-cols-4"
+            >
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Pilih Siswa *</label
+                    >
+                    <select
+                        v-model="form.user_id"
+                        required
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                    >
+                        <option value="">-- Pilih Siswa --</option>
+                        <option v-for="s in students" :key="s.id" :value="s.id">
+                            {{ s.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Hari Piket *</label
+                    >
+                    <select
+                        v-model="form.day"
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                    >
+                        <option value="senin">Senin</option>
+                        <option value="selasa">Selasa</option>
+                        <option value="rabu">Rabu</option>
+                        <option value="kamis">Kamis</option>
+                        <option value="jumat">Jum'at</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Shift *</label
+                    >
+                    <select
+                        v-model="form.shift"
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+                    >
+                        <option value="pagi">Pagi</option>
+                        <option value="sore">Sore</option>
+                    </select>
+                </div>
+
+                <div class="flex items-end space-y-1">
+                    <button
+                        type="submit"
+                        :disabled="form.processing"
+                        class="w-full cursor-pointer rounded-xl bg-zinc-950 py-2 text-xs font-semibold text-white hover:bg-zinc-800"
+                    >
+                        Simpan ke Jadwal
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Tampilan Grid Jadwal Piket Mingguan -->
+        <div
+            class="space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs"
+        >
+            <h3
+                class="border-b border-zinc-100 pb-2 text-sm font-bold text-zinc-900"
+            >
+                Jadwal Piket Mingguan Terdaftar
+            </h3>
+
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-5">
+                <div
+                    v-for="(name, key) in dayNames"
+                    :key="key"
+                    class="space-y-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3.5"
+                >
+                    <h4
+                        class="rounded-lg border border-zinc-100 bg-white py-1 text-center text-xs font-bold text-zinc-900 shadow-2xs"
+                    >
+                        {{ name }}
+                    </h4>
+
+                    <!-- Pagi -->
                     <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Pilih Siswa *</label>
-                        <select v-model="form.user_id" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-                            <option value="">-- Pilih Siswa --</option>
-                            <option v-for="s in students" :key="s.id" :value="s.id">{{ s.name }}</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Hari Piket *</label>
-                        <select v-model="form.day" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-                            <option value="senin">Senin</option>
-                            <option value="selasa">Selasa</option>
-                            <option value="rabu">Rabu</option>
-                            <option value="kamis">Kamis</option>
-                            <option value="jumat">Jum'at</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Shift *</label>
-                        <select v-model="form.shift" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-                            <option value="pagi">Pagi</option>
-                            <option value="sore">Sore</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-1 flex items-end">
-                        <button type="submit" :disabled="form.processing" class="w-full py-2 bg-[rgb(93,135,255)] text-white font-semibold rounded-xl text-xs">Simpan ke Jadwal</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Tampilan Grid Jadwal Piket Mingguan -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
-                <h3 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-2">Jadwal Piket Mingguan Terdaftar</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                    <div v-for="(name, key) in dayNames" :key="key" class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
-                        <h4 class="font-bold text-slate-900 text-xs text-center bg-white py-1 rounded-lg border border-slate-100 shadow-2xs">{{ name }}</h4>
-
-                        <!-- Pagi -->
-                        <div class="space-y-1">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase">Shift Pagi</p>
-                            <div v-for="item in schedules[key]?.pagi" :key="item.id" class="p-2 bg-white rounded-lg text-xs font-semibold flex items-center justify-between border border-slate-100">
-                                <span class="truncate">{{ item.user?.name }}</span>
-                                <button @click="deleteSchedule(item.id)" class="text-rose-500 hover:text-rose-700 text-[10px]">✕</button>
-                            </div>
+                        <p
+                            class="text-[10px] font-bold text-zinc-400 uppercase"
+                        >
+                            Shift Pagi
+                        </p>
+                        <div
+                            v-for="item in schedules[key]?.pagi"
+                            :key="item.id"
+                            class="flex items-center justify-between rounded-lg border border-zinc-100 bg-white p-2 text-xs font-semibold"
+                        >
+                            <span class="truncate text-zinc-900">{{
+                                item.user?.name
+                            }}</span>
+                            <button
+                                @click="deleteSchedule(item.id)"
+                                class="cursor-pointer text-[10px] text-rose-500 hover:text-rose-700"
+                            >
+                                ✕
+                            </button>
                         </div>
+                    </div>
 
-                        <!-- Sore -->
-                        <div class="space-y-1 pt-1">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase">Shift Sore</p>
-                            <div v-for="item in schedules[key]?.sore" :key="item.id" class="p-2 bg-white rounded-lg text-xs font-semibold flex items-center justify-between border border-slate-100">
-                                <span class="truncate">{{ item.user?.name }}</span>
-                                <button @click="deleteSchedule(item.id)" class="text-rose-500 hover:text-rose-700 text-[10px]">✕</button>
-                            </div>
+                    <!-- Sore -->
+                    <div class="space-y-1 pt-1">
+                        <p
+                            class="text-[10px] font-bold text-zinc-400 uppercase"
+                        >
+                            Shift Sore
+                        </p>
+                        <div
+                            v-for="item in schedules[key]?.sore"
+                            :key="item.id"
+                            class="flex items-center justify-between rounded-lg border border-zinc-100 bg-white p-2 text-xs font-semibold"
+                        >
+                            <span class="truncate text-zinc-900">{{
+                                item.user?.name
+                            }}</span>
+                            <button
+                                @click="deleteSchedule(item.id)"
+                                class="cursor-pointer text-[10px] text-rose-500 hover:text-rose-700"
+                            >
+                                ✕
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </template>

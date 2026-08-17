@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useForm, Link } from '@inertiajs/vue3';
-import { 
-    User, 
-    Mail, 
-    Lock, 
-    Phone, 
-    Upload, 
-    CheckCircle2, 
-    FileText, 
-    ArrowRight, 
-    ArrowLeft, 
+import {
+    User,
+    Mail,
+    Lock,
+    Phone,
+    Upload,
+    CheckCircle2,
+    FileText,
+    ArrowRight,
+    ArrowLeft,
     Building2,
     GraduationCap,
     Eye,
     EyeOff,
-    X
+    X,
 } from '@lucide/vue';
+import { ref } from 'vue';
+import { Button } from '@/components/ui/button';
 
 defineProps<{
     schools: any[];
@@ -42,6 +43,7 @@ const form = useForm({
 
 const handleFileUpload = (e: Event) => {
     const target = e.target as HTMLInputElement;
+
     if (target.files && target.files[0]) {
         form.cv_file = target.files[0];
     }
@@ -52,14 +54,25 @@ const removeFile = () => {
 };
 
 const goToStep2 = () => {
-    if (!form.name || !form.username || !form.email || !form.phone_number || !form.password || !form.password_confirmation) {
+    if (
+        !form.name ||
+        !form.username ||
+        !form.email ||
+        !form.phone_number ||
+        !form.password ||
+        !form.password_confirmation
+    ) {
         alert('Harap lengkapi semua kolom langkah 1 sebelum melanjutkan.');
+
         return;
     }
+
     if (form.password !== form.password_confirmation) {
         alert('Konfirmasi password tidak cocok.');
+
         return;
     }
+
     currentStep.value = 2;
 };
 
@@ -69,49 +82,71 @@ const submit = () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 sm:p-6 font-sans text-slate-800 selection:bg-[rgb(93,135,255)] selection:text-white">
+    <div
+        class="flex min-h-screen flex-col items-center justify-center bg-white p-4 font-sans text-zinc-900 selection:bg-zinc-950 selection:text-white sm:p-6"
+    >
         <!-- Top Nav -->
-        <div class="w-full max-w-lg mb-4 flex items-center justify-between">
-            <Link href="/" class="flex items-center gap-2.5 group">
-                <div class="w-10 h-10 rounded-2xl overflow-hidden shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform shrink-0">
-                    <img src="/images/app-icon.png" alt="SIPKL" class="w-full h-full object-contain" />
-                </div>
-                <span class="font-black text-slate-900 text-base tracking-tight">SIPKL System</span>
+        <div class="mb-6 flex w-full max-w-md items-center justify-between">
+            <Link href="/" class="group flex items-center">
+                <span
+                    class="text-xl font-extrabold tracking-tight text-zinc-950"
+                >
+                    SIPKL<span class="text-zinc-950">.</span>
+                </span>
             </Link>
 
-            <Link href="/login" class="text-xs font-semibold text-slate-500 hover:text-[rgb(93,135,255)] flex items-center gap-1 transition-colors">
+            <Link
+                href="/login"
+                class="flex items-center gap-1 text-xs font-medium text-zinc-500 transition-colors hover:text-zinc-950"
+            >
                 <span>Sudah punya akun? Masuk</span>
-                <ArrowRight class="w-3.5 h-3.5" />
+                <ArrowRight class="h-3.5 w-3.5" />
             </Link>
         </div>
 
-        <!-- Minimalist Register Card -->
-        <div class="w-full max-w-lg bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-200/50 p-6 sm:p-8 space-y-6">
+        <!-- Minimalist Register Card (Monochrome Modern B&W) -->
+        <div
+            class="w-full max-w-md space-y-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-xs sm:p-8"
+        >
             <!-- Header -->
             <div class="space-y-1 text-center">
-                <h1 class="text-2xl font-black text-slate-900 tracking-tight">Daftar Siswa PKL</h1>
-                <p class="text-xs text-slate-500">Lengkapi formulir untuk verifikasi akun</p>
+                <h1 class="text-xl font-bold tracking-tight text-zinc-950">
+                    Daftar Akun Siswa
+                </h1>
+                <p class="text-xs text-zinc-500">
+                    Lengkapi formulir untuk verifikasi pendaftaran
+                </p>
             </div>
 
             <!-- Step Tabs Minimalist -->
-            <div class="flex items-center gap-2 p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-bold">
-                <button 
-                    type="button" 
+            <div
+                class="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-zinc-100 p-1 text-xs font-semibold"
+            >
+                <button
+                    type="button"
                     @click="currentStep = 1"
-                    class="flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                    :class="currentStep === 1 ? 'bg-[rgb(93,135,255)] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+                    class="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs transition-all"
+                    :class="
+                        currentStep === 1
+                            ? 'bg-zinc-950 text-white shadow-2xs'
+                            : 'text-zinc-600 hover:text-zinc-950'
+                    "
                 >
-                    <User class="w-3.5 h-3.5" />
+                    <User class="h-3.5 w-3.5" />
                     <span>1. Akun</span>
                 </button>
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     @click="goToStep2"
-                    class="flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                    :class="currentStep === 2 ? 'bg-[rgb(93,135,255)] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'"
+                    class="flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs transition-all"
+                    :class="
+                        currentStep === 2
+                            ? 'bg-zinc-950 text-white shadow-2xs'
+                            : 'text-zinc-600 hover:text-zinc-950'
+                    "
                 >
-                    <GraduationCap class="w-3.5 h-3.5" />
-                    <span>2. Sekolah & CV</span>
+                    <GraduationCap class="h-3.5 w-3.5" />
+                    <span>2. Institusi & CV</span>
                 </button>
             </div>
 
@@ -119,113 +154,236 @@ const submit = () => {
             <form @submit.prevent="submit" class="space-y-4">
                 <!-- STEP 1 -->
                 <div v-show="currentStep === 1" class="space-y-3.5">
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-700">Nama Lengkap *</label>
-                        <input v-model="form.name" type="text" required placeholder="Afdanu Aprilian" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
-                        <span v-if="form.errors.name" class="text-[11px] text-rose-500">{{ form.errors.name }}</span>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Nama Lengkap *</label
+                        >
+                        <input
+                            v-model="form.name"
+                            type="text"
+                            required
+                            placeholder="Afdanu Aprilian"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                        />
+                        <span
+                            v-if="form.errors.name"
+                            class="text-[11px] text-rose-500"
+                            >{{ form.errors.name }}</span
+                        >
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-slate-700">Username *</label>
-                            <input v-model="form.username" type="text" required placeholder="afdanu" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
-                            <span v-if="form.errors.username" class="text-[11px] text-rose-500">{{ form.errors.username }}</span>
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >Username *</label
+                            >
+                            <input
+                                v-model="form.username"
+                                type="text"
+                                required
+                                placeholder="afdanu"
+                                class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                            />
+                            <span
+                                v-if="form.errors.username"
+                                class="text-[11px] text-rose-500"
+                                >{{ form.errors.username }}</span
+                            >
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-slate-700">Email *</label>
-                            <input v-model="form.email" type="email" required placeholder="email@contoh.com" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
-                            <span v-if="form.errors.email" class="text-[11px] text-rose-500">{{ form.errors.email }}</span>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >Email *</label
+                            >
+                            <input
+                                v-model="form.email"
+                                type="email"
+                                required
+                                placeholder="email@contoh.com"
+                                class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                            />
+                            <span
+                                v-if="form.errors.email"
+                                class="text-[11px] text-rose-500"
+                                >{{ form.errors.email }}</span
+                            >
                         </div>
                     </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-700">Nomor WhatsApp *</label>
-                        <input v-model="form.phone_number" type="text" required placeholder="081234567890" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
-                        <span v-if="form.errors.phone_number" class="text-[11px] text-rose-500">{{ form.errors.phone_number }}</span>
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Nomor WhatsApp *</label
+                        >
+                        <input
+                            v-model="form.phone_number"
+                            type="text"
+                            required
+                            placeholder="081234567890"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                        />
+                        <span
+                            v-if="form.errors.phone_number"
+                            class="text-[11px] text-rose-500"
+                            >{{ form.errors.phone_number }}</span
+                        >
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-slate-700">Password *</label>
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >Password *</label
+                            >
                             <div class="relative">
-                                <input v-model="form.password" :type="showPassword ? 'text' : 'password'" required placeholder="Minimal 8 karakter" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
-                                <button type="button" @click="showPassword = !showPassword" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600">
-                                    <Eye v-if="!showPassword" class="w-4 h-4" />
-                                    <EyeOff v-else class="w-4 h-4" />
+                                <input
+                                    v-model="form.password"
+                                    :type="showPassword ? 'text' : 'password'"
+                                    required
+                                    placeholder="Minimal 8 karakter"
+                                    class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                                />
+                                <button
+                                    type="button"
+                                    @click="showPassword = !showPassword"
+                                    class="absolute top-2.5 right-3 text-zinc-400 hover:text-zinc-700"
+                                >
+                                    <Eye v-if="!showPassword" class="h-4 w-4" />
+                                    <EyeOff v-else class="h-4 w-4" />
                                 </button>
                             </div>
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-slate-700">Ulangi Password *</label>
-                            <input v-model="form.password_confirmation" :type="showPassword ? 'text' : 'password'" required placeholder="Konfirmasi password" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >Ulangi Password *</label
+                            >
+                            <input
+                                v-model="form.password_confirmation"
+                                :type="showPassword ? 'text' : 'password'"
+                                required
+                                placeholder="Konfirmasi password"
+                                class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                            />
                         </div>
                     </div>
 
-                    <button 
-                        type="button" 
+                    <Button
+                        type="button"
                         @click="goToStep2"
-                        class="w-full py-3 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 transition-all cursor-pointer mt-2"
+                        class="mt-2 flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-zinc-950 text-xs font-semibold text-white shadow-xs transition-all hover:bg-zinc-800"
                     >
                         <span>Lanjut ke Langkah 2</span>
-                        <ArrowRight class="w-4 h-4" />
-                    </button>
+                        <ArrowRight class="h-3.5 w-3.5" />
+                    </Button>
                 </div>
 
                 <!-- STEP 2 -->
                 <div v-show="currentStep === 2" class="space-y-3.5">
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-700">Asal Sekolah / Kampus *</label>
-                        <input v-model="form.school_name" type="text" required placeholder="SMKN 1 Surabaya" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Asal Sekolah / Kampus *</label
+                        >
+                        <input
+                            v-model="form.school_name"
+                            type="text"
+                            required
+                            placeholder="SMKN 1 Surabaya"
+                            class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                        />
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-slate-700">Jurusan *</label>
-                            <input v-model="form.major_name" type="text" required placeholder="Rekayasa Perangkat Lunak" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >Jurusan *</label
+                            >
+                            <input
+                                v-model="form.major_name"
+                                type="text"
+                                required
+                                placeholder="Rekayasa Perangkat Lunak"
+                                class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                            />
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-xs font-bold text-slate-700">NISN / NIM</label>
-                            <input v-model="form.nisn_nim" type="text" placeholder="12345678" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[rgb(93,135,255)] focus:bg-white" />
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-zinc-700"
+                                >NISN / NIM</label
+                            >
+                            <input
+                                v-model="form.nisn_nim"
+                                type="text"
+                                placeholder="12345678"
+                                class="w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-xs text-zinc-900 transition-all focus:border-zinc-950 focus:bg-white focus:outline-none sm:text-sm"
+                            />
                         </div>
                     </div>
 
                     <!-- Upload CV -->
-                    <div class="space-y-1 pt-1">
-                        <label class="text-xs font-bold text-slate-700">Berkas CV (PDF) *</label>
-                        <div v-if="!form.cv_file" class="border-2 border-dashed border-slate-200 hover:border-[rgb(93,135,255)] rounded-2xl p-4 text-center transition-all bg-slate-50">
-                            <input type="file" accept=".pdf" required @change="handleFileUpload" class="hidden" id="cv-upload-min" />
-                            <label for="cv-upload-min" class="cursor-pointer flex flex-col items-center gap-1.5">
-                                <Upload class="w-5 h-5 text-[rgb(93,135,255)]" />
-                                <p class="text-xs font-bold text-slate-800">Pilih berkas PDF CV (Maks 5MB)</p>
+                    <div class="space-y-1.5 pt-1">
+                        <label class="text-xs font-semibold text-zinc-700"
+                            >Berkas CV (PDF) *</label
+                        >
+                        <div
+                            v-if="!form.cv_file"
+                            class="rounded-xl border-2 border-dashed border-zinc-200 bg-zinc-50/50 p-4 text-center transition-all hover:border-zinc-400"
+                        >
+                            <input
+                                type="file"
+                                accept=".pdf"
+                                required
+                                @change="handleFileUpload"
+                                class="hidden"
+                                id="cv-upload-min"
+                            />
+                            <label
+                                for="cv-upload-min"
+                                class="flex cursor-pointer flex-col items-center gap-1.5"
+                            >
+                                <Upload class="h-5 w-5 text-zinc-900" />
+                                <p class="text-xs font-semibold text-zinc-800">
+                                    Pilih berkas PDF CV (Maks 5MB)
+                                </p>
                             </label>
                         </div>
-                        <div v-else class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <div
+                            v-else
+                            class="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 p-3"
+                        >
                             <div class="flex items-center gap-2.5 truncate">
-                                <FileText class="w-4 h-4 text-rose-500 shrink-0" />
-                                <span class="text-xs font-semibold text-slate-800 truncate">{{ form.cv_file.name }}</span>
+                                <FileText
+                                    class="h-4 w-4 shrink-0 text-zinc-950"
+                                />
+                                <span
+                                    class="truncate text-xs font-medium text-zinc-800"
+                                    >{{ form.cv_file.name }}</span
+                                >
                             </div>
-                            <button type="button" @click="removeFile" class="text-slate-400 hover:text-rose-600"><X class="w-4 h-4" /></button>
+                            <button
+                                type="button"
+                                @click="removeFile"
+                                class="text-zinc-400 hover:text-zinc-900"
+                            >
+                                <X class="h-4 w-4" />
+                            </button>
                         </div>
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
-                        <button 
-                            type="button" 
+                        <Button
+                            type="button"
+                            variant="outline"
                             @click="currentStep = 1"
-                            class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1 transition-all cursor-pointer"
+                            class="flex h-11 cursor-pointer items-center gap-1 rounded-xl border-zinc-200 px-4 text-xs font-semibold text-zinc-700 transition-all hover:bg-zinc-100"
                         >
-                            <ArrowLeft class="w-3.5 h-3.5" />
+                            <ArrowLeft class="h-3.5 w-3.5" />
                             <span>Kembali</span>
-                        </button>
+                        </Button>
 
-                        <button 
-                            type="submit" 
+                        <Button
+                            type="submit"
                             :disabled="form.processing"
-                            class="flex-1 py-2.5 bg-[rgb(93,135,255)] hover:bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 text-xs transition-all disabled:opacity-50 cursor-pointer"
+                            class="flex h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-zinc-950 text-xs font-semibold text-white shadow-xs transition-all hover:bg-zinc-800 disabled:opacity-50"
                         >
-                            <CheckCircle2 class="w-4 h-4" />
+                            <CheckCircle2 class="h-3.5 w-3.5" />
                             <span>Kirim Pendaftaran</span>
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </form>

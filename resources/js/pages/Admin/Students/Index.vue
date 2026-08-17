@@ -17,7 +17,11 @@ const search = ref(props.filters.search || '');
 const status = ref(props.filters.status || '');
 
 const applyFilter = () => {
-    router.get('/admin/students', { search: search.value, status: status.value }, { preserveState: true });
+    router.get(
+        '/admin/students',
+        { search: search.value, status: status.value },
+        { preserveState: true },
+    );
 };
 
 const showEditModal = ref(false);
@@ -58,140 +62,257 @@ const deleteStudent = (id: number) => {
 
 <template>
     <div class="space-y-6">
-            <!-- Header section -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h1 class="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                        <Users class="w-5 h-5 text-[rgb(93,135,255)]" />
-                        Master Data Semua Siswa PKL
-                    </h1>
-                    <p class="text-xs text-slate-500 mt-1">Kelola data profil, sesi latihan, dan status keaktifan akun siswa PKL.</p>
-                </div>
-            </div>
-
-            <!-- Filter Controls -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center gap-3">
-                <div class="relative flex-1 min-w-[200px]">
-                    <Search class="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-                    <input v-model="search" @input="applyFilter" type="text" placeholder="Cari nama, username, atau email..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[rgb(93,135,255)]" />
-                </div>
-
-                <select v-model="status" @change="applyFilter" class="px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none">
-                    <option value="">-- Semua Status --</option>
-                    <option value="approved">Approved / Aktif</option>
-                    <option value="pending">Pending</option>
-                    <option value="rejected">Rejected</option>
-                </select>
-            </div>
-
-            <!-- Master Table -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
-                            <tr>
-                                <th class="px-5 py-3">Nama Siswa</th>
-                                <th class="px-5 py-3">Asal Sekolah & Jurusan</th>
-                                <th class="px-5 py-3">Divisi / Badge</th>
-                                <th class="px-5 py-3">Sesi PKL</th>
-                                <th class="px-5 py-3">Status Akun</th>
-                                <th class="px-5 py-3 text-right">Aksi Edit</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <tr v-for="student in students.data" :key="student.id" class="hover:bg-slate-50/50">
-                                <td class="px-5 py-4 font-bold text-slate-900">
-                                    <p>{{ student.name }}</p>
-                                    <p class="text-[11px] font-normal text-slate-400">@{{ student.username }} • {{ student.email }}</p>
-                                </td>
-                                <td class="px-5 py-4 text-slate-700">
-                                    <p class="font-semibold">{{ student.profile?.school_name || '-' }}</p>
-                                    <p class="text-[11px] text-slate-500">{{ student.profile?.major_name || '-' }}</p>
-                                </td>
-                                <td class="px-5 py-4">
-                                    <span v-if="student.profile?.division_name" class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100">
-                                        {{ student.profile.division_name }}
-                                    </span>
-                                    <span v-else class="text-slate-400 font-italic text-[11px]">Belum Di-assign</span>
-                                </td>
-                                <td class="px-5 py-4 font-semibold text-[rgb(93,135,255)] uppercase">
-                                    {{ student.profile?.session_type }}
-                                </td>
-                                <td class="px-5 py-4">
-                                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold capitalize"
-                                          :class="{
-                                              'bg-emerald-50 text-emerald-700': student.status === 'approved',
-                                              'bg-amber-50 text-amber-700': student.status === 'pending',
-                                              'bg-rose-50 text-rose-700': student.status === 'rejected',
-                                          }">
-                                        {{ student.status }}
-                                    </span>
-                                </td>
-                                <td class="px-5 py-4 text-right space-x-2">
-                                    <button @click="openEditModal(student)" class="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg">
-                                        <Edit2 class="w-3.5 h-3.5" />
-                                    </button>
-                                    <button @click="deleteStudent(student.id)" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg">
-                                        <Trash2 class="w-3.5 h-3.5" />
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <!-- Header section -->
+        <div
+            class="flex flex-col justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs sm:flex-row sm:items-center"
+        >
+            <div>
+                <h1
+                    class="flex items-center gap-2 text-xl font-bold tracking-tight text-zinc-950"
+                >
+                    <Users class="h-5 w-5 text-zinc-900" />
+                    Master Data Semua Siswa PKL
+                </h1>
+                <p class="mt-1 text-xs text-zinc-500">
+                    Kelola data profil, sesi latihan, dan status keaktifan akun
+                    siswa PKL.
+                </p>
             </div>
         </div>
 
-        <!-- Edit Student Modal -->
-        <div v-if="showEditModal && selectedStudent" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-            <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-slate-100">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-slate-900 text-base">Edit Akun Siswa PKL</h3>
-                    <button @click="showEditModal = false" class="text-slate-400 hover:text-slate-600 text-sm">✕</button>
+        <!-- Filter Controls -->
+        <div
+            class="flex flex-wrap items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-2xs"
+        >
+            <div class="relative min-w-[200px] flex-1">
+                <Search class="absolute top-3 left-3.5 h-4 w-4 text-zinc-400" />
+                <input
+                    v-model="search"
+                    @input="applyFilter"
+                    type="text"
+                    placeholder="Cari nama, username, atau email..."
+                    class="w-full rounded-xl border border-zinc-200 bg-zinc-50 py-2 pr-4 pl-9 text-xs focus:border-zinc-950 focus:outline-none"
+                />
+            </div>
+
+            <select
+                v-model="status"
+                @change="applyFilter"
+                class="rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-xs focus:border-zinc-950 focus:outline-none"
+            >
+                <option value="">-- Semua Status --</option>
+                <option value="approved">Approved / Aktif</option>
+                <option value="pending">Pending</option>
+                <option value="rejected">Rejected</option>
+            </select>
+        </div>
+
+        <!-- Master Table -->
+        <div
+            class="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs"
+        >
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead
+                        class="border-b border-zinc-200 bg-zinc-50 font-semibold text-zinc-600 uppercase"
+                    >
+                        <tr>
+                            <th class="px-5 py-3">Nama Siswa</th>
+                            <th class="px-5 py-3">Asal Sekolah & Jurusan</th>
+                            <th class="px-5 py-3">Divisi / Badge</th>
+                            <th class="px-5 py-3">Sesi PKL</th>
+                            <th class="px-5 py-3">Status Akun</th>
+                            <th class="px-5 py-3 text-right">Aksi Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-100">
+                        <tr
+                            v-for="student in students.data"
+                            :key="student.id"
+                            class="hover:bg-zinc-50/50"
+                        >
+                            <td class="px-5 py-4 font-bold text-zinc-900">
+                                <p>{{ student.name }}</p>
+                                <p
+                                    class="text-[11px] font-normal text-zinc-400"
+                                >
+                                    @{{ student.username }} •
+                                    {{ student.email }}
+                                </p>
+                            </td>
+                            <td class="px-5 py-4 text-zinc-700">
+                                <p class="font-semibold">
+                                    {{ student.profile?.school_name || '-' }}
+                                </p>
+                                <p class="text-[11px] text-zinc-500">
+                                    {{ student.profile?.major_name || '-' }}
+                                </p>
+                            </td>
+                            <td class="px-5 py-4">
+                                <span
+                                    v-if="student.profile?.division_name"
+                                    class="inline-block rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-0.5 text-[10px] font-bold text-zinc-950"
+                                >
+                                    {{ student.profile.division_name }}
+                                </span>
+                                <span
+                                    v-else
+                                    class="font-italic text-[11px] text-zinc-400"
+                                    >Belum Di-assign</span
+                                >
+                            </td>
+                            <td
+                                class="px-5 py-4 font-semibold text-zinc-950 uppercase"
+                            >
+                                {{ student.profile?.session_type }}
+                            </td>
+                            <td class="px-5 py-4">
+                                <span
+                                    class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold capitalize"
+                                    :class="{
+                                        'bg-emerald-50 text-emerald-700':
+                                            student.status === 'approved',
+                                        'bg-amber-50 text-amber-700':
+                                            student.status === 'pending',
+                                        'bg-rose-50 text-rose-700':
+                                            student.status === 'rejected',
+                                    }"
+                                >
+                                    {{ student.status }}
+                                </span>
+                            </td>
+                            <td class="space-x-2 px-5 py-4 text-right">
+                                <button
+                                    @click="openEditModal(student)"
+                                    class="cursor-pointer rounded-lg bg-zinc-100 p-1.5 text-zinc-700 hover:bg-zinc-200"
+                                >
+                                    <Edit2 class="h-3.5 w-3.5" />
+                                </button>
+                                <button
+                                    @click="deleteStudent(student.id)"
+                                    class="cursor-pointer rounded-lg bg-rose-50 p-1.5 text-rose-600 hover:bg-rose-100"
+                                >
+                                    <Trash2 class="h-3.5 w-3.5" />
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Student Modal -->
+    <div
+        v-if="showEditModal && selectedStudent"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/40 p-4 backdrop-blur-sm"
+    >
+        <div
+            class="w-full max-w-md space-y-4 rounded-2xl border border-zinc-100 bg-white p-6 shadow-2xl"
+        >
+            <div
+                class="flex items-center justify-between border-b border-zinc-100 pb-3"
+            >
+                <h3 class="text-base font-bold text-zinc-900">
+                    Edit Akun Siswa PKL
+                </h3>
+                <button
+                    @click="showEditModal = false"
+                    class="text-sm text-zinc-400 hover:text-zinc-600"
+                >
+                    ✕
+                </button>
+            </div>
+
+            <form @submit.prevent="submitUpdate" class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Nama Lengkap</label
+                    >
+                    <input
+                        v-model="form.name"
+                        type="text"
+                        required
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm focus:border-zinc-950 focus:outline-none"
+                    />
                 </div>
 
-                <form @submit.prevent="submitUpdate" class="space-y-4">
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Nama Lengkap</label>
-                        <input v-model="form.name" type="text" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
-                    </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Email</label
+                    >
+                    <input
+                        v-model="form.email"
+                        type="email"
+                        required
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm focus:border-zinc-950 focus:outline-none"
+                    />
+                </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Email</label>
-                        <input v-model="form.email" type="email" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm" />
-                    </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Divisi / Role Posisi (Badge)</label
+                    >
+                    <select
+                        v-model="form.division_id"
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm focus:border-zinc-950 focus:outline-none"
+                    >
+                        <option value="">-- Pilih Divisi --</option>
+                        <option
+                            v-for="d in divisions"
+                            :key="d.id"
+                            :value="d.id"
+                        >
+                            {{ d.name }}
+                        </option>
+                    </select>
+                </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Divisi / Role Posisi (Badge)</label>
-                        <select v-model="form.division_id" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
-                            <option value="">-- Pilih Divisi --</option>
-                            <option v-for="d in divisions" :key="d.id" :value="d.id">{{ d.name }}</option>
-                        </select>
-                    </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Tipe Sesi PKL</label
+                    >
+                    <select
+                        v-model="form.session_type"
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm focus:border-zinc-950 focus:outline-none"
+                    >
+                        <option value="full_day">Full Day</option>
+                        <option value="persesi_pagi">Shift Pagi</option>
+                        <option value="persesi_sore">Shift Sore</option>
+                    </select>
+                </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Tipe Sesi PKL</label>
-                        <select v-model="form.session_type" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
-                            <option value="full_day">Full Day</option>
-                            <option value="persesi_pagi">Shift Pagi</option>
-                            <option value="persesi_sore">Shift Sore</option>
-                        </select>
-                    </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-semibold text-zinc-700"
+                        >Status Akun</label
+                    >
+                    <select
+                        v-model="form.status"
+                        class="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm focus:border-zinc-950 focus:outline-none"
+                    >
+                        <option value="approved">Approved</option>
+                        <option value="pending">Pending</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
 
-                    <div class="space-y-1">
-                        <label class="text-xs font-semibold text-slate-700">Status Akun</label>
-                        <select v-model="form.status" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm">
-                            <option value="approved">Approved</option>
-                            <option value="pending">Pending</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-
-                    <div class="pt-2 flex justify-end gap-2">
-                        <button type="button" @click="showEditModal = false" class="px-4 py-2 bg-slate-100 text-slate-600 font-semibold rounded-xl text-xs">Batal</button>
-                        <button type="submit" :disabled="form.processing" class="px-4 py-2 bg-[rgb(93,135,255)] text-white font-semibold rounded-xl text-xs">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button
+                        type="button"
+                        @click="showEditModal = false"
+                        class="cursor-pointer rounded-xl bg-zinc-100 px-4 py-2 text-xs font-semibold text-zinc-600"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        type="submit"
+                        :disabled="form.processing"
+                        class="cursor-pointer rounded-xl bg-zinc-950 px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800"
+                    >
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>

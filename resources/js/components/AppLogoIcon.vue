@@ -13,11 +13,11 @@ defineProps<Props>();
 </script>
 
 <template>
-    <img 
-        src="/images/logo-emblem.png" 
-        alt="SIPKL Logo" 
-        :class="className" 
-        v-bind="$attrs" 
-        class="object-contain"
-    />
+    <span
+        :class="className"
+        v-bind="$attrs"
+        class="inline-flex items-center font-extrabold tracking-tight text-zinc-950 dark:text-white"
+    >
+        SIPKL.
+    </span>
 </template>
